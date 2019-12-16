@@ -9,10 +9,19 @@
     </parent>
     <artifactId>shop-core-common</artifactId>
     <name>shop-core-common</name>
-    <description>组件</description>
+    <description>公共层</description>
 
     <properties>
         <java.version>1.8</java.version>
     </properties>
+    <dependencies>
+        <!-- spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <!-- spring end -->
+
+    </dependencies>
 
 </project>
