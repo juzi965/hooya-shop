@@ -12,7 +12,7 @@ public class UserController {
 	@PostMapping("/login")
 	public Result login(@RequestParam(required = false) LoginVo vo){
 
-		return new Result(PropertiesUtil.SUCCESS_CODE,PropertiesUtil.SUCCESS_MSG);
+		return new Result(PropertiesUtil.SUCCESS_CODE,null);
 	}
 
 }
