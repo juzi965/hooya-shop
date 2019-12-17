@@ -13,6 +13,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import top.hooya.shop.interceptor.AuthorityInterceptor;
 import top.hooya.shop.interceptor.SqlInjectInterceptor;
 
 import java.nio.charset.StandardCharsets;
@@ -31,6 +32,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		// sql注入拦截器
 		registry.addInterceptor(new SqlInjectInterceptor()).addPathPatterns("/**");
+		registry.addInterceptor(new AuthorityInterceptor()).addPathPatterns("/**");
 
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}

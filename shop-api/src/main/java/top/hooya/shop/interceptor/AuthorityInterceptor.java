@@ -17,12 +17,20 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class AuthorityInterceptor implements HandlerInterceptor {
 
+	private final String TOKEN_HEADER="token";
+
 	/**
 	 * http请求前权限校验
 	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		// token校检
+		String token = request.getHeader(TOKEN_HEADER);
+		if (token!=null&&!token.isEmpty()){
+			return true;
+		}
+		return false;
 //		// 登录校验
 //		Object userObject = request.getSession().getAttribute("userInfo");
 //		if (userObject == null) { // 未登录
@@ -40,8 +48,6 @@ public class AuthorityInterceptor implements HandlerInterceptor {
 //			return false;
 //		}
 
-
-		return true;
 	}
 
 	@Override
