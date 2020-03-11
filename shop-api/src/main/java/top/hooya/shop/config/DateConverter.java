@@ -16,7 +16,11 @@ public class DateConverter implements Converter<String, Date> {
 	@Override
 	public Date convert(String source) {
 		try {
-			return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(source);
+			if (source.length()>10){
+				return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(source);
+
+			}
+			return new SimpleDateFormat("yyyy-MM-dd").parse(source);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

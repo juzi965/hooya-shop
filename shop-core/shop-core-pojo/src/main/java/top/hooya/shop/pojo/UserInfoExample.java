@@ -2,6 +2,7 @@ package top.hooya.shop.pojo;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class UserInfoExample {
@@ -103,6 +104,32 @@ public class UserInfoExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -515,63 +542,63 @@ public class UserInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andAgeIsNull() {
-            addCriterion("age is null");
+        public Criteria andBirthdayIsNull() {
+            addCriterion("birthday is null");
             return (Criteria) this;
         }
 
-        public Criteria andAgeIsNotNull() {
-            addCriterion("age is not null");
+        public Criteria andBirthdayIsNotNull() {
+            addCriterion("birthday is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAgeEqualTo(Integer value) {
-            addCriterion("age =", value, "age");
+        public Criteria andBirthdayEqualTo(Date value) {
+            addCriterionForJDBCDate("birthday =", value, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andAgeNotEqualTo(Integer value) {
-            addCriterion("age <>", value, "age");
+        public Criteria andBirthdayNotEqualTo(Date value) {
+            addCriterionForJDBCDate("birthday <>", value, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andAgeGreaterThan(Integer value) {
-            addCriterion("age >", value, "age");
+        public Criteria andBirthdayGreaterThan(Date value) {
+            addCriterionForJDBCDate("birthday >", value, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andAgeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("age >=", value, "age");
+        public Criteria andBirthdayGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("birthday >=", value, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andAgeLessThan(Integer value) {
-            addCriterion("age <", value, "age");
+        public Criteria andBirthdayLessThan(Date value) {
+            addCriterionForJDBCDate("birthday <", value, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andAgeLessThanOrEqualTo(Integer value) {
-            addCriterion("age <=", value, "age");
+        public Criteria andBirthdayLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("birthday <=", value, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andAgeIn(List<Integer> values) {
-            addCriterion("age in", values, "age");
+        public Criteria andBirthdayIn(List<Date> values) {
+            addCriterionForJDBCDate("birthday in", values, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andAgeNotIn(List<Integer> values) {
-            addCriterion("age not in", values, "age");
+        public Criteria andBirthdayNotIn(List<Date> values) {
+            addCriterionForJDBCDate("birthday not in", values, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andAgeBetween(Integer value1, Integer value2) {
-            addCriterion("age between", value1, value2, "age");
+        public Criteria andBirthdayBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("birthday between", value1, value2, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andAgeNotBetween(Integer value1, Integer value2) {
-            addCriterion("age not between", value1, value2, "age");
+        public Criteria andBirthdayNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("birthday not between", value1, value2, "birthday");
             return (Criteria) this;
         }
 

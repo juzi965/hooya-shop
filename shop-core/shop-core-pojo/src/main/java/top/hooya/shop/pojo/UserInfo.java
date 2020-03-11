@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * user_info
- * @author 
+ * @author juzi965
+ * 
  */
 public class UserInfo implements Serializable {
     private Integer id;
@@ -20,7 +20,7 @@ public class UserInfo implements Serializable {
 
     private String gender;
 
-    private Integer age;
+    private Date birthday;
 
     private Date createTime;
 
@@ -76,12 +76,12 @@ public class UserInfo implements Serializable {
         this.gender = gender;
     }
 
-    public Integer getAge() {
-        return age;
+    public Date getBirthday() {
+        return birthday;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public Date getCreateTime() {
@@ -118,7 +118,7 @@ public class UserInfo implements Serializable {
             && (this.getPhoneNum() == null ? other.getPhoneNum() == null : this.getPhoneNum().equals(other.getPhoneNum()))
             && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
             && (this.getGender() == null ? other.getGender() == null : this.getGender().equals(other.getGender()))
-            && (this.getAge() == null ? other.getAge() == null : this.getAge().equals(other.getAge()))
+            && (this.getBirthday() == null ? other.getBirthday() == null : this.getBirthday().equals(other.getBirthday()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getDelFlag() == null ? other.getDelFlag() == null : this.getDelFlag().equals(other.getDelFlag()));
     }
@@ -133,7 +133,7 @@ public class UserInfo implements Serializable {
         result = prime * result + ((getPhoneNum() == null) ? 0 : getPhoneNum().hashCode());
         result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
         result = prime * result + ((getGender() == null) ? 0 : getGender().hashCode());
-        result = prime * result + ((getAge() == null) ? 0 : getAge().hashCode());
+        result = prime * result + ((getBirthday() == null) ? 0 : getBirthday().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getDelFlag() == null) ? 0 : getDelFlag().hashCode());
         return result;
@@ -151,7 +151,7 @@ public class UserInfo implements Serializable {
         sb.append(", phoneNum=").append(phoneNum);
         sb.append(", password=").append(password);
         sb.append(", gender=").append(gender);
-        sb.append(", age=").append(age);
+        sb.append(", birthday=").append(birthday);
         sb.append(", createTime=").append(createTime);
         sb.append(", delFlag=").append(delFlag);
         sb.append(", serialVersionUID=").append(serialVersionUID);

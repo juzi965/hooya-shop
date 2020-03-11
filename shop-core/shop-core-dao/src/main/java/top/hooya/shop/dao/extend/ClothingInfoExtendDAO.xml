@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.hooya.shop.dao.extend.ClothingInfoExtendDAO">
+  <resultMap id="BaseResultMap" type="top.hooya.shop.pojo.extend.ClothingInfoExtend">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="clothing_name" jdbcType="VARCHAR" property="clothingName" />
+    <result column="clothing_content" jdbcType="VARCHAR" property="clothingContent" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+    <collection property="clothingAttrList" ofType="top.hooya.shop.pojo.ClothingAttr">
+      <id column="attr_id" jdbcType="INTEGER" property="id" />
+      <result column="size" jdbcType="VARCHAR" property="size" />
+      <result column="price" jdbcType="DOUBLE" property="price" />
+      <result column="stock" jdbcType="INTEGER" property="stock" />
+    </collection>
+    <collection property="pictureInfoList" ofType="top.hooya.shop.pojo.PictureInfo">
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="file_domain" jdbcType="VARCHAR" property="fileDomain" />
+      <result column="path" jdbcType="VARCHAR" property="path" />
+    </collection>
+  </resultMap>
+  <select id="selectClothing" resultMap="BaseResultMap">
+    select clo.*,pic.name,pic.file_domain,pic.path,cloa.size,cloa.price,cloa.stock,cloa.id attr_id
+    from clothing_info clo,picture_info pic,clothing_attr cloa
+    where clo.id=pic.clothing_id and clo.id = cloa.clothing_id
+    <if test="id != null">
+      and clo.id = #{id,jdbcType=INTEGER}
+    </if>
+  </select>
+
+  <select id="selectClothingByCategory" resultMap="BaseResultMap">
+    select clo.*,pic.name,pic.file_domain,pic.path,cloa.size,cloa.price,cloa.stock
+    from clothing_info clo,picture_info pic,clothing_attr cloa
+    where clo.id=pic.clothing_id and clo.id = cloa.clothing_id
+    <if test="name != null">
+      and (clo.category like "%"#{name}"%"
+      or clo.clothing_name like "%"#{name}"%"
+      or clo.clothing_content like "%"#{name}"%")
+    </if>
+  </select>
+</mapper>

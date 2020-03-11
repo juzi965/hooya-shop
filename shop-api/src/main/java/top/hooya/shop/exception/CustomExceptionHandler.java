@@ -32,7 +32,7 @@ public class CustomExceptionHandler {
 	public Result handleException(Exception ex, HttpServletRequest request) {
 	    logger.error(request.getRequestURI());
 	    logger.error(ex.getMessage(),ex);
-		return new Result(PropertiesUtil.OTHER_ERROR_CODE, ex.getMessage());
+		return Result.unauthorized(ex.getMessage());
 	}
 
 //	/**

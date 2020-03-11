@@ -8,7 +8,7 @@
     <result column="phone_num" jdbcType="VARCHAR" property="phoneNum" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="gender" jdbcType="VARCHAR" property="gender" />
-    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
   </resultMap>
@@ -71,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_name, email, phone_num, `password`, gender, age, create_time, del_flag
+    id, user_name, email, phone_num, `password`, gender, birthday, create_time, del_flag
   </sql>
   <select id="selectByExample" parameterType="top.hooya.shop.pojo.UserInfoExample" resultMap="BaseResultMap">
     select
@@ -106,11 +106,11 @@
   <insert id="insert" parameterType="top.hooya.shop.pojo.UserInfo">
     insert into user_info (id, user_name, email, 
       phone_num, `password`, gender, 
-      age, create_time, del_flag
+      birthday, create_time, del_flag
       )
     values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{phoneNum,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
-      #{age,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=INTEGER}
+      #{birthday,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="top.hooya.shop.pojo.UserInfo">
@@ -134,8 +134,8 @@
       <if test="gender != null">
         gender,
       </if>
-      <if test="age != null">
-        age,
+      <if test="birthday != null">
+        birthday,
       </if>
       <if test="createTime != null">
         create_time,
@@ -163,8 +163,8 @@
       <if test="gender != null">
         #{gender,jdbcType=VARCHAR},
       </if>
-      <if test="age != null">
-        #{age,jdbcType=INTEGER},
+      <if test="birthday != null">
+        #{birthday,jdbcType=DATE},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -201,8 +201,8 @@
       <if test="record.gender != null">
         gender = #{record.gender,jdbcType=VARCHAR},
       </if>
-      <if test="record.age != null">
-        age = #{record.age,jdbcType=INTEGER},
+      <if test="record.birthday != null">
+        birthday = #{record.birthday,jdbcType=DATE},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -223,7 +223,7 @@
       phone_num = #{record.phoneNum,jdbcType=VARCHAR},
       `password` = #{record.password,jdbcType=VARCHAR},
       gender = #{record.gender,jdbcType=VARCHAR},
-      age = #{record.age,jdbcType=INTEGER},
+      birthday = #{record.birthday,jdbcType=DATE},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       del_flag = #{record.delFlag,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -248,8 +248,8 @@
       <if test="gender != null">
         gender = #{gender,jdbcType=VARCHAR},
       </if>
-      <if test="age != null">
-        age = #{age,jdbcType=INTEGER},
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=DATE},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -267,7 +267,7 @@
       phone_num = #{phoneNum,jdbcType=VARCHAR},
       `password` = #{password,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=VARCHAR},
-      age = #{age,jdbcType=INTEGER},
+      birthday = #{birthday,jdbcType=DATE},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       del_flag = #{delFlag,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

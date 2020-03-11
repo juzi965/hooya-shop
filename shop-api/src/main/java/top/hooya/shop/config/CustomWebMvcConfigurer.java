@@ -10,6 +10,7 @@ import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -24,6 +25,12 @@ import java.util.Set;
 @Configuration
 public class CustomWebMvcConfigurer implements WebMvcConfigurer {
 
+	//	解决此类中自动注入为NULL的情况
+	@Bean
+	public AuthorityInterceptor getMyInterceptor() {
+		return new AuthorityInterceptor();
+	}
+
 	/**
 	 * 拦截器配置
 	 * @param registry
@@ -32,7 +39,7 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		// sql注入拦截器
 		registry.addInterceptor(new SqlInjectInterceptor()).addPathPatterns("/**");
-		registry.addInterceptor(new AuthorityInterceptor()).addPathPatterns("/**");
+		registry.addInterceptor(getMyInterceptor()).addPathPatterns("/**");
 
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}
@@ -46,9 +53,9 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
 		registry.addMapping("/api/**")
 //				.allowedHeaders("Authorization","Token") // 允许的请求头信息
 //				.allowedMethods("POST") // 仅允许POST
-				.allowedOrigins("http://localhost:8080");//允许域名访问，如果*，代表所有域名
+				.allowedOrigins("*");//允许域名访问，如果*，代表所有域名
 
-	//	WebMvcConfigurer.super.addCorsMappings(registry);
+		WebMvcConfigurer.super.addCorsMappings(registry);
 	}
 
 	/**
@@ -95,4 +102,9 @@ public class CustomWebMvcConfigurer implements WebMvcConfigurer {
 		return factoryBean.getObject();
 	}
 
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+		WebMvcConfigurer.super.addArgumentResolvers(resolvers);
+		resolvers.add(new CurrentUserMethodArgumentResolver());
+	}
 }

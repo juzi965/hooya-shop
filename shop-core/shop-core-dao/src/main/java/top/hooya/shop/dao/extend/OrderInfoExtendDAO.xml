@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.hooya.shop.dao.extend.OrderInfoExtendDAO">
+  <resultMap id="BaseResultMap" type="top.hooya.shop.pojo.extend.OrderInfoExtend">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="address_id" jdbcType="INTEGER" property="addressId" />
+    <result column="pay_flag" jdbcType="INTEGER" property="payFlag" />
+    <result column="order_flag" jdbcType="INTEGER" property="orderFlag" />
+    <result column="express_num" jdbcType="VARCHAR" property="expressNum" />
+    <result column="total_price" jdbcType="DOUBLE" property="totalPrice" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+    <association property="addressInfo"
+                 column="address_id"
+                 select="selectAddressInfoByAddressId"
+                 javaType="top.hooya.shop.pojo.AddressInfo">
+    </association>
+    <collection property="orderItem" column="order_id" select="selectOrderItemExtendByOrderId">
+    </collection>
+  </resultMap>
+  <resultMap id="OrderItemExtendMap" type="top.hooya.shop.pojo.extend.OrderItemExtend">
+    <id column="item_id" jdbcType="INTEGER" property="id" />
+    <result column="clothing_name" jdbcType="VARCHAR" property="clothingName" />
+    <result column="clothing_content" jdbcType="VARCHAR" property="clothingContent" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
+    <result column="clothing_id" jdbcType="INTEGER" property="clothingId" />
+    <result column="size" jdbcType="VARCHAR" property="size" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+  </resultMap>
+  <resultMap id="AddressInfoMap" type="top.hooya.shop.pojo.AddressInfo">
+    <result column="recipient" jdbcType="VARCHAR" property="recipient" />
+    <result column="phone_num" jdbcType="VARCHAR" property="phoneNum" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+  </resultMap>
+  <select id="selectOrderByUserId" resultMap="BaseResultMap">
+    select oin.*
+    from order_info oin
+    where oin.user_id=#{userId}
+    and oin.del_flag=0
+  </select>
+  <select id="selectOrderByOrderId" resultMap="BaseResultMap">
+    select oin.*
+    from order_info oin
+    where oin.order_id=#{orderId}
+    and oin.del_flag=0
+  </select>
+  <select id="selectOrderItemExtendByOrderId" resultMap="OrderItemExtendMap">
+    select oit.id item_id,oit.clothing_id,oit.size,oit.num,oit.price,oit.img_url,clo.clothing_name,clo.clothing_content,clo.category
+    from order_item oit,
+    clothing_info clo
+    where oit.order_id=#{order_id}
+    and clo.id=oit.clothing_id
+  </select>
+  <select id="selectAddressInfoByAddressId" resultMap="AddressInfoMap">
+    select addr.recipient,addr.phone_num,addr.address
+    from address_info addr
+    where addr.id = #{address_id}
+  </select>
+</mapper>
+
+
