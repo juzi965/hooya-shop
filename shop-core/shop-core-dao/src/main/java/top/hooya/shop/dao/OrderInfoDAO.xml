@@ -5,7 +5,9 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="order_id" jdbcType="VARCHAR" property="orderId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="address_id" jdbcType="INTEGER" property="addressId" />
+    <result column="recipient" jdbcType="VARCHAR" property="recipient" />
+    <result column="phone_num" jdbcType="VARCHAR" property="phoneNum" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="pay_flag" jdbcType="INTEGER" property="payFlag" />
     <result column="order_flag" jdbcType="INTEGER" property="orderFlag" />
     <result column="express_num" jdbcType="VARCHAR" property="expressNum" />
@@ -72,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, order_id, user_id, address_id, pay_flag, order_flag, express_num, total_price, 
-    create_time, del_flag
+    id, order_id, user_id, recipient, phone_num, address, pay_flag, order_flag, express_num, 
+    total_price, create_time, del_flag
   </sql>
   <select id="selectByExample" parameterType="top.hooya.shop.pojo.OrderInfoExample" resultMap="BaseResultMap">
     select
@@ -107,13 +109,15 @@
   </delete>
   <insert id="insert" parameterType="top.hooya.shop.pojo.OrderInfo">
     insert into order_info (id, order_id, user_id, 
-      address_id, pay_flag, order_flag, 
-      express_num, total_price, create_time, 
-      del_flag)
+      recipient, phone_num, address, 
+      pay_flag, order_flag, express_num, 
+      total_price, create_time, del_flag
+      )
     values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
-      #{addressId,jdbcType=INTEGER}, #{payFlag,jdbcType=INTEGER}, #{orderFlag,jdbcType=INTEGER}, 
-      #{expressNum,jdbcType=VARCHAR}, #{totalPrice,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{delFlag,jdbcType=INTEGER})
+      #{recipient,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{payFlag,jdbcType=INTEGER}, #{orderFlag,jdbcType=INTEGER}, #{expressNum,jdbcType=VARCHAR}, 
+      #{totalPrice,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="top.hooya.shop.pojo.OrderInfo">
     insert into order_info
@@ -127,8 +131,14 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="addressId != null">
-        address_id,
+      <if test="recipient != null">
+        recipient,
+      </if>
+      <if test="phoneNum != null">
+        phone_num,
+      </if>
+      <if test="address != null">
+        address,
       </if>
       <if test="payFlag != null">
         pay_flag,
@@ -159,8 +169,14 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="addressId != null">
-        #{addressId,jdbcType=INTEGER},
+      <if test="recipient != null">
+        #{recipient,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null">
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
       </if>
       <if test="payFlag != null">
         #{payFlag,jdbcType=INTEGER},
@@ -200,8 +216,14 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.addressId != null">
-        address_id = #{record.addressId,jdbcType=INTEGER},
+      <if test="record.recipient != null">
+        recipient = #{record.recipient,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneNum != null">
+        phone_num = #{record.phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
       </if>
       <if test="record.payFlag != null">
         pay_flag = #{record.payFlag,jdbcType=INTEGER},
@@ -231,7 +253,9 @@
     set id = #{record.id,jdbcType=INTEGER},
       order_id = #{record.orderId,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=INTEGER},
-      address_id = #{record.addressId,jdbcType=INTEGER},
+      recipient = #{record.recipient,jdbcType=VARCHAR},
+      phone_num = #{record.phoneNum,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
       pay_flag = #{record.payFlag,jdbcType=INTEGER},
       order_flag = #{record.orderFlag,jdbcType=INTEGER},
       express_num = #{record.expressNum,jdbcType=VARCHAR},
@@ -251,8 +275,14 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="addressId != null">
-        address_id = #{addressId,jdbcType=INTEGER},
+      <if test="recipient != null">
+        recipient = #{recipient,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null">
+        phone_num = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
       </if>
       <if test="payFlag != null">
         pay_flag = #{payFlag,jdbcType=INTEGER},
@@ -279,7 +309,9 @@
     update order_info
     set order_id = #{orderId,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=INTEGER},
-      address_id = #{addressId,jdbcType=INTEGER},
+      recipient = #{recipient,jdbcType=VARCHAR},
+      phone_num = #{phoneNum,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
       pay_flag = #{payFlag,jdbcType=INTEGER},
       order_flag = #{orderFlag,jdbcType=INTEGER},
       express_num = #{expressNum,jdbcType=VARCHAR},

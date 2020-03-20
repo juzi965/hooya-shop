@@ -4,8 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.hooya.shop.common.pojo.ShoppingCartVo;
-import top.hooya.shop.common.utils.MyUtils;
+import top.hooya.shop.common.utils.DateUtils;
 import top.hooya.shop.common.utils.PropertiesUtil;
+import top.hooya.shop.dao.AddressInfoDAO;
 import top.hooya.shop.dao.ClothingAttrDAO;
 import top.hooya.shop.dao.OrderInfoDAO;
 import top.hooya.shop.dao.OrderItemDAO;
@@ -15,6 +16,7 @@ import top.hooya.shop.pojo.extend.OrderInfoExtend;
 import top.hooya.shop.pojo.extend.OrderItemExtend;
 import top.hooya.shop.service.OrderInfoService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,13 +38,15 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     @Autowired
     private OrderInfoExtendDAO orderInfoExtendDAO;
 
+    @Autowired
+    private AddressInfoDAO addressInfoDAO;
+
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public String createOrder(List<ShoppingCartVo> cartVos, Integer addressId,Integer userId) {
         double totalPrice = 0;
-        String uuid= MyUtils.UUID();
-
+        String uuid= DateUtils.getCurrDate("yyyyMMddHHmmssSSS")+userId.toString();
         for (ShoppingCartVo cartVo : cartVos) {
             ClothingAttr clothingAttr = clothingAttrDAO.selectByPrimaryKey(cartVo.getAttrId());
             int stock = clothingAttr.getStock()-cartVo.getNum();
@@ -61,22 +65,53 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             orderItem.setNum(cartVo.getNum());
             orderItem.setPrice(cartVo.getPrice());
             orderItem.setImgUrl(cartVo.getImg());
+            orderItem.setCreateTime(new Date());
             orderItemDAO.insertSelective(orderItem);
         }
+        AddressInfo addressInfo =addressInfoDAO.selectByPrimaryKey(addressId);
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setOrderId(uuid);
         orderInfo.setUserId(userId);
-        orderInfo.setAddressId(addressId);
+        orderInfo.setRecipient(addressInfo.getRecipient());
+        orderInfo.setPhoneNum(addressInfo.getPhoneNum());
+        orderInfo.setAddress(addressInfo.getAddress());
         orderInfo.setPayFlag(PropertiesUtil.PAY_UNPAY);
         orderInfo.setTotalPrice(totalPrice);
+        orderInfo.setCreateTime(new Date());
         int count = orderInfoDAO.insertSelective(orderInfo);
         return count>0?uuid:null;
     }
 
     @Override
     public List<OrderInfoExtend> getOrderByUserId(Integer userId) {
-        List<OrderInfoExtend> orderInfoExtendList = orderInfoExtendDAO.selectOrderByUserId(userId);
-        return orderInfoExtendList;
+        return orderInfoExtendDAO.selectOrderByUserId(userId);
+    }
+    @Override
+    public List<OrderInfoExtend> getOrder(String keyWord) {
+        if ("all".equals(keyWord)){
+            keyWord=null;
+        }
+        return orderInfoExtendDAO.selectOrder(keyWord);
+    }
+
+    @Override
+    public int send(String orderId, String expressNum) {
+        OrderInfoExample example = new OrderInfoExample();
+        example.createCriteria().andOrderIdEqualTo(orderId);
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setExpressNum(expressNum);
+        return orderInfoDAO.updateByExampleSelective(orderInfo,example);
+    }
+
+    @Override
+    public UserInfo getUserInfoByOrderId(String orderId) {
+        return orderInfoExtendDAO.selectUserInfoByOrderId(orderId);
+    }
+
+    @Override
+    public List<UserInfo> getUserInfoByRoleId(Integer roleId) {
+
+        return orderInfoExtendDAO.selectUserInfoByRoleId(roleId);
     }
 
     @Override
@@ -95,9 +130,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                 clothingAttrExample.createCriteria().andClothingIdEqualTo(orderItemExtend.getClothingId())
                         .andSizeEqualTo(orderItemExtend.getSize())
                         .andDelFlagNotEqualTo(PropertiesUtil.DEL_FLAG);
-                ClothingAttr clothingAttr = clothingAttrDAO.selectByExample(clothingAttrExample).get(0);
-                clothingAttr.setStock(clothingAttr.getStock()+orderItemExtend.getNum());
-                clothingAttrDAO.updateByPrimaryKeySelective(clothingAttr);
+                List<ClothingAttr> clothingAttrList = clothingAttrDAO.selectByExample(clothingAttrExample);
+                if (clothingAttrList!=null&&!clothingAttrList.isEmpty()){
+                    ClothingAttr clothingAttr = clothingAttrList.get(0);
+                    clothingAttr.setStock(clothingAttr.getStock()+orderItemExtend.getNum());
+                    clothingAttrDAO.updateByPrimaryKeySelective(clothingAttr);
+                }
             }
         }
 
@@ -132,4 +170,6 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         example.createCriteria().andOrderIdEqualTo(orderId);
         return orderInfoDAO.updateByExampleSelective(orderInfo,example);
     }
+
+
 }

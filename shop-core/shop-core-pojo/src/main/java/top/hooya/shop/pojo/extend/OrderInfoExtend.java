@@ -11,18 +11,18 @@ import java.util.List;
  */
 public class OrderInfoExtend extends OrderInfo {
 
-
-    private AddressInfo addressInfo;
+    private String userName;
 
     private List<OrderItemExtend>  orderItem;
 
-    public AddressInfo getAddressInfo() {
-        return addressInfo;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setAddressInfo(AddressInfo addressInfo) {
-        this.addressInfo = addressInfo;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
+
 
     public List<OrderItemExtend> getOrderItem() {
         return orderItem;

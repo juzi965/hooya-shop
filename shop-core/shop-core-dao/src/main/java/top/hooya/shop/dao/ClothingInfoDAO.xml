@@ -108,7 +108,7 @@
       #{category,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="top.hooya.shop.pojo.ClothingInfo">
+  <insert id="insertSelective" parameterType="top.hooya.shop.pojo.ClothingInfo" useGeneratedKeys="true" keyProperty="id" >
     insert into clothing_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

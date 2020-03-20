@@ -5,12 +5,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import top.hooya.shop.common.pojo.LoginVo;
 import top.hooya.shop.common.pojo.PasswordVo;
+import top.hooya.shop.common.pojo.RoleUserVo;
+import top.hooya.shop.common.utils.PropertiesUtil;
+import top.hooya.shop.dao.SysRoleUserDAO;
 import top.hooya.shop.dao.UserInfoDAO;
-import top.hooya.shop.pojo.UserInfo;
-import top.hooya.shop.pojo.UserInfoExample;
+import top.hooya.shop.dao.extend.UserInfoExtendDao;
+import top.hooya.shop.pojo.*;
 import top.hooya.shop.pojo.UserInfoExample.Criteria;
+import top.hooya.shop.pojo.extend.SysMenuExtend;
+import top.hooya.shop.pojo.extend.UserInfoExtend;
 import top.hooya.shop.service.UserInfoService;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -18,6 +26,12 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Autowired
 	private UserInfoDAO userInfoDAO;
+
+	@Autowired
+	private UserInfoExtendDao userInfoExtendDao;
+
+	@Autowired
+	private SysRoleUserDAO  sysRoleUserDAO;
 
 	@Override
 	public UserInfo getUserInfoByLoginVo(LoginVo vo) {
@@ -39,6 +53,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Override
 	public int saveUserInfo(UserInfo userInfo) {
+		userInfo.setPassword(null);
 		return userInfoDAO.updateByPrimaryKeySelective(userInfo);
 	}
 
@@ -56,5 +71,94 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@Override
 	public UserInfo getUserInfoById(Integer id) {
 		return userInfoDAO.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public List<UserInfoExtend> getUser(String keyWord) {
+		if ("all".equals(keyWord)){
+			keyWord = null;
+		}
+		return userInfoExtendDao.selectUserInfoByKeyWord(keyWord);
+	}
+
+	@Override
+	public int resetPasswordByuserId(Integer userId) {
+		UserInfo userInfo = new UserInfo();
+		userInfo.setId(userId);
+		userInfo.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
+		return userInfoDAO.updateByPrimaryKeySelective(userInfo);
+	}
+
+	@Override
+	public int allocationRole(RoleUserVo vo) {
+
+		int count = 0;
+		for (Integer userId:vo.getUserIds()){
+			SysRoleUser sysRoleUser = new SysRoleUser();
+			sysRoleUser.setDelFlag(PropertiesUtil.DEL_FLAG);
+			SysRoleUserExample sysRoleUserExample = new SysRoleUserExample();
+			sysRoleUserExample.createCriteria().andUserIdEqualTo(userId).andDelFlagNotEqualTo(PropertiesUtil.DEL_FLAG);
+			sysRoleUserDAO.updateByExampleSelective(sysRoleUser,sysRoleUserExample);
+		}
+		for (Integer userId:vo.getUserIds()){
+			SysRoleUser sysRoleUser = new SysRoleUser();
+			sysRoleUser.setRoleId(vo.getRoleId());
+			sysRoleUser.setUserId(userId);
+			sysRoleUser.setCreateTime(new Date());
+			count += sysRoleUserDAO.insertSelective(sysRoleUser);
+		}
+
+		return count;
+	}
+
+	@Override
+	public int revokeRole(RoleUserVo vo) {
+
+		int count = 0;
+		for (Integer userId:vo.getUserIds()){
+			SysRoleUser sysRoleUser = new SysRoleUser();
+			sysRoleUser.setDelFlag(PropertiesUtil.DEL_FLAG);
+			SysRoleUserExample sysRoleUserExample = new SysRoleUserExample();
+			sysRoleUserExample.createCriteria().andUserIdEqualTo(userId).andDelFlagNotEqualTo(PropertiesUtil.DEL_FLAG);
+			count+= sysRoleUserDAO.updateByExampleSelective(sysRoleUser,sysRoleUserExample);
+		}
+		return count;
+	}
+
+	@Override
+	public List<SysMenuExtend> getMenuListByUserId(Integer userId) {
+		List<SysMenu> sysMenuList  = userInfoExtendDao.selectMenuListByUserId(userId);
+		sysMenuList.removeAll(Collections.singleton(null));
+		List<SysMenuExtend> menuTree = new ArrayList<>();
+			for (SysMenu sysMenu:sysMenuList){
+				if (sysMenu.getParentId()==-1){
+					SysMenuExtend sysMenuExtend = new SysMenuExtend(sysMenu);
+					sysMenuExtend.setChildren(getChildren(sysMenuExtend.getId(),sysMenuList));
+					menuTree.add(sysMenuExtend);
+				}
+			}
+		return menuTree;
+
+	}
+
+	@Override
+	public int register(UserInfo userInfo) {
+		userInfo.setCreateTime(new Date());
+		userInfo.setPassword(DigestUtils.md5DigestAsHex(userInfo.getPassword().getBytes()));
+		userInfoDAO.insertSelective(userInfo);
+		SysRoleUser sysRoleUser = new SysRoleUser();
+		sysRoleUser.setUserId(userInfo.getId());
+		sysRoleUser.setRoleId(PropertiesUtil.ROLE_BUYER);
+		return sysRoleUserDAO.insertSelective(sysRoleUser);
+	}
+
+	private List<SysMenu> getChildren(Integer parentId,List<SysMenu> sysMenuList){
+		List<SysMenu> secondMenuList = new ArrayList<>();
+		for (SysMenu sysMenu: sysMenuList){
+			if (sysMenu.getParentId().equals(parentId)){
+				secondMenuList.add(sysMenu);
+			}
+		}
+		return secondMenuList;
 	}
 }

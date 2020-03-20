@@ -6,7 +6,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="file_domain" jdbcType="VARCHAR" property="fileDomain" />
     <result column="path" jdbcType="VARCHAR" property="path" />
-    <result column="clothing_id" jdbcType="VARCHAR" property="clothingId" />
+    <result column="clothing_id" jdbcType="INTEGER" property="clothingId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
   </resultMap>
@@ -106,7 +106,7 @@
       `path`, clothing_id, create_time, 
       del_flag)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{fileDomain,jdbcType=VARCHAR}, 
-      #{path,jdbcType=VARCHAR}, #{clothingId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{path,jdbcType=VARCHAR}, #{clothingId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{delFlag,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="top.hooya.shop.pojo.PictureInfo">
@@ -148,7 +148,7 @@
         #{path,jdbcType=VARCHAR},
       </if>
       <if test="clothingId != null">
-        #{clothingId,jdbcType=VARCHAR},
+        #{clothingId,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -180,7 +180,7 @@
         `path` = #{record.path,jdbcType=VARCHAR},
       </if>
       <if test="record.clothingId != null">
-        clothing_id = #{record.clothingId,jdbcType=VARCHAR},
+        clothing_id = #{record.clothingId,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -199,7 +199,7 @@
       `name` = #{record.name,jdbcType=VARCHAR},
       file_domain = #{record.fileDomain,jdbcType=VARCHAR},
       `path` = #{record.path,jdbcType=VARCHAR},
-      clothing_id = #{record.clothingId,jdbcType=VARCHAR},
+      clothing_id = #{record.clothingId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       del_flag = #{record.delFlag,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -219,7 +219,7 @@
         `path` = #{path,jdbcType=VARCHAR},
       </if>
       <if test="clothingId != null">
-        clothing_id = #{clothingId,jdbcType=VARCHAR},
+        clothing_id = #{clothingId,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -235,7 +235,7 @@
     set `name` = #{name,jdbcType=VARCHAR},
       file_domain = #{fileDomain,jdbcType=VARCHAR},
       `path` = #{path,jdbcType=VARCHAR},
-      clothing_id = #{clothingId,jdbcType=VARCHAR},
+      clothing_id = #{clothingId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       del_flag = #{delFlag,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

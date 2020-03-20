@@ -11,9 +11,12 @@ import top.hooya.shop.common.pojo.ShoppingCartVo;
 import top.hooya.shop.common.pojo.UserLoginToken;
 import top.hooya.shop.common.result.Result;
 import top.hooya.shop.common.utils.AliPayUtil;
+import top.hooya.shop.common.utils.DateUtils;
+import top.hooya.shop.common.utils.PropertiesUtil;
 import top.hooya.shop.pojo.UserInfo;
 import top.hooya.shop.pojo.extend.OrderInfoExtend;
 import top.hooya.shop.service.OrderInfoService;
+import top.hooya.shop.websocket.WebSocket;
 
 import java.util.List;
 import java.util.Map;
@@ -29,11 +32,19 @@ public class OrderController {
     @Autowired
     private OrderInfoService orderInfoService;
 
+    @Autowired
+    private WebSocket webSocket;
+
     @UserLoginToken
     @PostMapping("/create/{addressId}")
     public Result createOrder(@RequestBody List<ShoppingCartVo> cartVos,@CurrentUser UserInfo userInfo, @PathVariable("addressId") Integer addressId){
 
         String orderId = orderInfoService.createOrder(cartVos,addressId,userInfo.getId());
+
+
+        for (UserInfo userInfo1:orderInfoService.getUserInfoByRoleId(PropertiesUtil.ROLE_SELLER)){
+            webSocket.sendOneMessage(userInfo1.getUserName(), DateUtils.getCurrDate("yyyy-MM-dd hh:mm:ss") +"您有新的订单");
+        }
 
         return !StringUtils.isEmpty(orderId)? Result.success(orderId):Result.error("订单创建失败");
     }
@@ -43,6 +54,16 @@ public class OrderController {
 
         PageHelper.startPage(pageNum,pageSize,"create_time desc");
         List<OrderInfoExtend> orderInfoExtendList = orderInfoService.getOrderByUserId(userInfo.getId());
+        PageInfo<OrderInfoExtend> pageInfo = new PageInfo<>(orderInfoExtendList);
+
+        return Result.success(pageInfo);
+    }
+    @UserLoginToken
+    @GetMapping("/{keyWord}/{pageNum}/{pageSize}")
+    public Result getOrder(@PathVariable("keyWord") String keyWord,@PathVariable("pageNum") Integer pageNum, @PathVariable("pageSize") Integer pageSize){
+
+        PageHelper.startPage(pageNum,pageSize,"create_time desc");
+        List<OrderInfoExtend> orderInfoExtendList = orderInfoService.getOrder(keyWord);
         PageInfo<OrderInfoExtend> pageInfo = new PageInfo<>(orderInfoExtendList);
 
         return Result.success(pageInfo);
@@ -79,5 +100,16 @@ public class OrderController {
             }
         }
         return Result.error("支付失败");
+    }
+    @UserLoginToken
+    @PostMapping("/send")
+    public Result send (String orderId,String expressNum){
+        int count = orderInfoService.send(orderId,expressNum);
+        if (count>0){
+            UserInfo userInfo = orderInfoService.getUserInfoByOrderId(orderId);
+            webSocket.sendOneMessage(userInfo.getUserName(),DateUtils.getCurrDate("yyyy-MM-dd hh:mm:ss")+"您的订单号为："+orderId+"的订单已发货，快递号为："+expressNum);
+            return Result.success(count);
+        }
+        return Result.error("发货失败");
     }
 }

@@ -385,62 +385,52 @@ public class PictureInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andClothingIdEqualTo(String value) {
+        public Criteria andClothingIdEqualTo(Integer value) {
             addCriterion("clothing_id =", value, "clothingId");
             return (Criteria) this;
         }
 
-        public Criteria andClothingIdNotEqualTo(String value) {
+        public Criteria andClothingIdNotEqualTo(Integer value) {
             addCriterion("clothing_id <>", value, "clothingId");
             return (Criteria) this;
         }
 
-        public Criteria andClothingIdGreaterThan(String value) {
+        public Criteria andClothingIdGreaterThan(Integer value) {
             addCriterion("clothing_id >", value, "clothingId");
             return (Criteria) this;
         }
 
-        public Criteria andClothingIdGreaterThanOrEqualTo(String value) {
+        public Criteria andClothingIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("clothing_id >=", value, "clothingId");
             return (Criteria) this;
         }
 
-        public Criteria andClothingIdLessThan(String value) {
+        public Criteria andClothingIdLessThan(Integer value) {
             addCriterion("clothing_id <", value, "clothingId");
             return (Criteria) this;
         }
 
-        public Criteria andClothingIdLessThanOrEqualTo(String value) {
+        public Criteria andClothingIdLessThanOrEqualTo(Integer value) {
             addCriterion("clothing_id <=", value, "clothingId");
             return (Criteria) this;
         }
 
-        public Criteria andClothingIdLike(String value) {
-            addCriterion("clothing_id like", value, "clothingId");
-            return (Criteria) this;
-        }
-
-        public Criteria andClothingIdNotLike(String value) {
-            addCriterion("clothing_id not like", value, "clothingId");
-            return (Criteria) this;
-        }
-
-        public Criteria andClothingIdIn(List<String> values) {
+        public Criteria andClothingIdIn(List<Integer> values) {
             addCriterion("clothing_id in", values, "clothingId");
             return (Criteria) this;
         }
 
-        public Criteria andClothingIdNotIn(List<String> values) {
+        public Criteria andClothingIdNotIn(List<Integer> values) {
             addCriterion("clothing_id not in", values, "clothingId");
             return (Criteria) this;
         }
 
-        public Criteria andClothingIdBetween(String value1, String value2) {
+        public Criteria andClothingIdBetween(Integer value1, Integer value2) {
             addCriterion("clothing_id between", value1, value2, "clothingId");
             return (Criteria) this;
         }
 
-        public Criteria andClothingIdNotBetween(String value1, String value2) {
+        public Criteria andClothingIdNotBetween(Integer value1, Integer value2) {
             addCriterion("clothing_id not between", value1, value2, "clothingId");
             return (Criteria) this;
         }

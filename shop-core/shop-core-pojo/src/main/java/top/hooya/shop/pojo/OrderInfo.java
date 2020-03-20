@@ -14,7 +14,11 @@ public class OrderInfo implements Serializable {
 
     private Integer userId;
 
-    private Integer addressId;
+    private String recipient;
+
+    private String phoneNum;
+
+    private String address;
 
     private Integer payFlag;
 
@@ -54,12 +58,28 @@ public class OrderInfo implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getAddressId() {
-        return addressId;
+    public String getRecipient() {
+        return recipient;
     }
 
-    public void setAddressId(Integer addressId) {
-        this.addressId = addressId;
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
+    }
+
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Integer getPayFlag() {
@@ -125,7 +145,9 @@ public class OrderInfo implements Serializable {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getOrderId() == null ? other.getOrderId() == null : this.getOrderId().equals(other.getOrderId()))
             && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
-            && (this.getAddressId() == null ? other.getAddressId() == null : this.getAddressId().equals(other.getAddressId()))
+            && (this.getRecipient() == null ? other.getRecipient() == null : this.getRecipient().equals(other.getRecipient()))
+            && (this.getPhoneNum() == null ? other.getPhoneNum() == null : this.getPhoneNum().equals(other.getPhoneNum()))
+            && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
             && (this.getPayFlag() == null ? other.getPayFlag() == null : this.getPayFlag().equals(other.getPayFlag()))
             && (this.getOrderFlag() == null ? other.getOrderFlag() == null : this.getOrderFlag().equals(other.getOrderFlag()))
             && (this.getExpressNum() == null ? other.getExpressNum() == null : this.getExpressNum().equals(other.getExpressNum()))
@@ -141,7 +163,9 @@ public class OrderInfo implements Serializable {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getOrderId() == null) ? 0 : getOrderId().hashCode());
         result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
-        result = prime * result + ((getAddressId() == null) ? 0 : getAddressId().hashCode());
+        result = prime * result + ((getRecipient() == null) ? 0 : getRecipient().hashCode());
+        result = prime * result + ((getPhoneNum() == null) ? 0 : getPhoneNum().hashCode());
+        result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
         result = prime * result + ((getPayFlag() == null) ? 0 : getPayFlag().hashCode());
         result = prime * result + ((getOrderFlag() == null) ? 0 : getOrderFlag().hashCode());
         result = prime * result + ((getExpressNum() == null) ? 0 : getExpressNum().hashCode());
@@ -160,7 +184,9 @@ public class OrderInfo implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", orderId=").append(orderId);
         sb.append(", userId=").append(userId);
-        sb.append(", addressId=").append(addressId);
+        sb.append(", recipient=").append(recipient);
+        sb.append(", phoneNum=").append(phoneNum);
+        sb.append(", address=").append(address);
         sb.append(", payFlag=").append(payFlag);
         sb.append(", orderFlag=").append(orderFlag);
         sb.append(", expressNum=").append(expressNum);

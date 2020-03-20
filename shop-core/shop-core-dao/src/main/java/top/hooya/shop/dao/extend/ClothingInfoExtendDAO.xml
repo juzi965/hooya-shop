@@ -8,31 +8,45 @@
     <result column="category" jdbcType="VARCHAR" property="category" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
-    <collection property="clothingAttrList" ofType="top.hooya.shop.pojo.ClothingAttr">
-      <id column="attr_id" jdbcType="INTEGER" property="id" />
-      <result column="size" jdbcType="VARCHAR" property="size" />
-      <result column="price" jdbcType="DOUBLE" property="price" />
-      <result column="stock" jdbcType="INTEGER" property="stock" />
+    <collection property="clothingAttrList" column="id" select="selectClothingAttrList">
     </collection>
-    <collection property="pictureInfoList" ofType="top.hooya.shop.pojo.PictureInfo">
-      <result column="name" jdbcType="VARCHAR" property="name" />
-      <result column="file_domain" jdbcType="VARCHAR" property="fileDomain" />
-      <result column="path" jdbcType="VARCHAR" property="path" />
+    <collection property="pictureInfoList" column="id" select="selectPictureInfoList">
     </collection>
   </resultMap>
+  <resultMap id="attrMap" type="top.hooya.shop.pojo.ClothingAttr">
+    <id column="attr_id" jdbcType="INTEGER" property="id" />
+    <result column="size" jdbcType="VARCHAR" property="size" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="stock" jdbcType="INTEGER" property="stock" />
+    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+  </resultMap>
+  <resultMap id="pictureMap" type="top.hooya.shop.pojo.PictureInfo">
+    <id column="pic_id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="file_domain" jdbcType="VARCHAR" property="fileDomain" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+  </resultMap>
+  <select id="selectClothingAttrList" resultMap="attrMap">
+    select cloa.size,cloa.price,cloa.stock,cloa.id attr_id,cloa.del_flag
+    from clothing_attr cloa
+    where cloa.clothing_id = #{id} and cloa.del_flag = 0
+  </select>
+  <select id="selectPictureInfoList" resultMap="pictureMap">
+    select pic.name,pic.file_domain,pic.path,pic.id pic_id
+    from picture_info pic
+    where pic.clothing_id = #{id} and pic.del_flag = 0
+  </select>
   <select id="selectClothing" resultMap="BaseResultMap">
-    select clo.*,pic.name,pic.file_domain,pic.path,cloa.size,cloa.price,cloa.stock,cloa.id attr_id
-    from clothing_info clo,picture_info pic,clothing_attr cloa
-    where clo.id=pic.clothing_id and clo.id = cloa.clothing_id
-    <if test="id != null">
-      and clo.id = #{id,jdbcType=INTEGER}
-    </if>
+    select clo.*
+    from clothing_info clo
+    where clo.id = #{id}
   </select>
 
   <select id="selectClothingByCategory" resultMap="BaseResultMap">
-    select clo.*,pic.name,pic.file_domain,pic.path,cloa.size,cloa.price,cloa.stock
-    from clothing_info clo,picture_info pic,clothing_attr cloa
-    where clo.id=pic.clothing_id and clo.id = cloa.clothing_id
+    select clo.*
+    from clothing_info clo
+    where
+    clo.del_flag = 0
     <if test="name != null">
       and (clo.category like "%"#{name}"%"
       or clo.clothing_name like "%"#{name}"%"

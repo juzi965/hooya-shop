@@ -5,18 +5,16 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="order_id" jdbcType="VARCHAR" property="orderId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="address_id" jdbcType="INTEGER" property="addressId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="recipient" jdbcType="VARCHAR" property="recipient" />
+    <result column="phone_num" jdbcType="VARCHAR" property="phoneNum" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="pay_flag" jdbcType="INTEGER" property="payFlag" />
     <result column="order_flag" jdbcType="INTEGER" property="orderFlag" />
     <result column="express_num" jdbcType="VARCHAR" property="expressNum" />
     <result column="total_price" jdbcType="DOUBLE" property="totalPrice" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
-    <association property="addressInfo"
-                 column="address_id"
-                 select="selectAddressInfoByAddressId"
-                 javaType="top.hooya.shop.pojo.AddressInfo">
-    </association>
     <collection property="orderItem" column="order_id" select="selectOrderItemExtendByOrderId">
     </collection>
   </resultMap>
@@ -31,11 +29,6 @@
     <result column="price" jdbcType="DOUBLE" property="price" />
     <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
   </resultMap>
-  <resultMap id="AddressInfoMap" type="top.hooya.shop.pojo.AddressInfo">
-    <result column="recipient" jdbcType="VARCHAR" property="recipient" />
-    <result column="phone_num" jdbcType="VARCHAR" property="phoneNum" />
-    <result column="address" jdbcType="VARCHAR" property="address" />
-  </resultMap>
   <select id="selectOrderByUserId" resultMap="BaseResultMap">
     select oin.*
     from order_info oin
@@ -48,6 +41,19 @@
     where oin.order_id=#{orderId}
     and oin.del_flag=0
   </select>
+  <select id="selectOrder" resultMap="BaseResultMap">
+    select oin.*,uin.user_name
+    from order_info oin,user_info uin
+    where oin.del_flag=0 and oin.user_id = uin.id
+    <if test="keyWord!=null">
+    and (uin.user_name like "%"#{keyWord}"%"
+    or oin.order_id like "%"#{keyWord}"%"
+    or oin.recipient like "%"#{keyWord}"%"
+    or oin.phone_num like "%"#{keyWord}"%"
+    or oin.address like "%"#{keyWord}"%"
+    or oin.express_num like "%"#{keyWord}"%")
+    </if>
+  </select>
   <select id="selectOrderItemExtendByOrderId" resultMap="OrderItemExtendMap">
     select oit.id item_id,oit.clothing_id,oit.size,oit.num,oit.price,oit.img_url,clo.clothing_name,clo.clothing_content,clo.category
     from order_item oit,
@@ -55,10 +61,55 @@
     where oit.order_id=#{order_id}
     and clo.id=oit.clothing_id
   </select>
-  <select id="selectAddressInfoByAddressId" resultMap="AddressInfoMap">
-    select addr.recipient,addr.phone_num,addr.address
-    from address_info addr
-    where addr.id = #{address_id}
+  <resultMap id="StatisticalDataMap" type="top.hooya.shop.common.pojo.StatisticalData">
+    <result column="currentDate" jdbcType="TIMESTAMP" property="currentDate" />
+    <result column="orderVolume" jdbcType="INTEGER" property="orderVolume" />
+    <result column="salesAmount" jdbcType="INTEGER" property="salesAmount" />
+    <result column="salesVolume" jdbcType="INTEGER" property="salesVolume" />
+  </resultMap>
+  <select id="selectTodayStatisticalData" resultMap="StatisticalDataMap">
+    select DATE_FORMAT(oin.create_time,'%Y-%m-%d') create_time,sum(oin.total_price) salesAmount
+    ,count(distinct oin.order_id) orderVolume
+    ,(select sum(oit.num)
+        from order_info oin,order_item oit
+        where oin.del_flag=0
+        and oin.pay_flag=1
+        and to_days(oin.create_time) = to_days(now())
+        and oit.order_id = oin.order_id) salesVolume
+    from order_info oin
+    where oin.del_flag=0 and oin.pay_flag=1 and to_days(oin.create_time) = to_days(now())
+	GROUP BY DATE_FORMAT(oin.create_time,'%Y-%m-%d')
+  </select>
+  <select id="selectMonthStatisticalData" resultMap="StatisticalDataMap">
+    select DATE_FORMAT(oin.create_time,'%Y-%m-%d') currentDate
+    ,sum(oin.total_price) salesAmount
+    ,count(distinct oin.order_id) orderVolume
+    from order_info oin
+    where oin.del_flag=0
+    and oin.pay_flag=1
+    and DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;=oin.create_time
+    GROUP BY DATE_FORMAT(oin.create_time,'%Y-%m-%d')
+  </select>
+  <resultMap id="UserInfoMap" type="top.hooya.shop.pojo.UserInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="phone_num" jdbcType="VARCHAR" property="phoneNum" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+  </resultMap>
+  <select id="selectUserInfoByOrderId" resultMap="UserInfoMap">
+    select ui.*
+    from user_info ui,order_info oi
+    where oi.order_id = #{orderId} and oi.user_id = ui.id
+  </select>
+  <select id="selectUserInfoByRoleId" resultMap="UserInfoMap">
+    select ui.*
+    from user_info ui left join sys_role_user sru on sru.user_id = ui.id
+    where sru.role_id =#{roleId} and sru.del_flag = 0 and ui.del_flag = 0
   </select>
 </mapper>
 

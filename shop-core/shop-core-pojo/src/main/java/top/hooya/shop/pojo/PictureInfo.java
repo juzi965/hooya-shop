@@ -16,7 +16,7 @@ public class PictureInfo implements Serializable {
 
     private String path;
 
-    private String clothingId;
+    private Integer clothingId;
 
     private Date createTime;
 
@@ -56,11 +56,11 @@ public class PictureInfo implements Serializable {
         this.path = path;
     }
 
-    public String getClothingId() {
+    public Integer getClothingId() {
         return clothingId;
     }
 
-    public void setClothingId(String clothingId) {
+    public void setClothingId(Integer clothingId) {
         this.clothingId = clothingId;
     }
 

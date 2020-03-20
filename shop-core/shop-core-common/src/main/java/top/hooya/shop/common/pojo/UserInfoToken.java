@@ -1,6 +1,10 @@
 package top.hooya.shop.common.pojo;
 
+import top.hooya.shop.pojo.SysMenu;
 import top.hooya.shop.pojo.UserInfo;
+import top.hooya.shop.pojo.extend.SysMenuExtend;
+
+import java.util.List;
 
 /**
  * @author juzi9
@@ -9,6 +13,7 @@ import top.hooya.shop.pojo.UserInfo;
 public class UserInfoToken extends UserInfo {
 
     private String token;
+    private List<SysMenuExtend>  menuTree;
 
     public String getToken() {
         return token;
@@ -16,5 +21,14 @@ public class UserInfoToken extends UserInfo {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+
+    public List<SysMenuExtend> getMenuTree() {
+        return menuTree;
+    }
+
+    public void setMenuTree(List<SysMenuExtend> menuTree) {
+        this.menuTree = menuTree;
     }
 }

@@ -90,6 +90,16 @@ public class PropertiesUtil {
 	 */
 	public static String ALIPAY_PUBLIC_KEY;
 
+	/**
+	 * 卖家ROLEId
+	 */
+	public static Integer ROLE_SELLER;
+
+	/**
+	 * 买家ROLEId
+	 */
+	public static Integer ROLE_BUYER;
+
 
 	@Value("${SUCCESS_CODE}")
 	public void setSuccessCode(Integer successCode) {
@@ -160,5 +170,13 @@ public class PropertiesUtil {
 	@Value("${ALIPAY_PUBLIC_KEY}")
 	public void setAlipayPublicKey(String alipayPublicKey) {
 		ALIPAY_PUBLIC_KEY = alipayPublicKey;
+	}
+	@Value("${ROLE_SELLER}")
+	public  void setRoleSeller(Integer roleSeller) {
+		ROLE_SELLER = roleSeller;
+	}
+	@Value("${ROLE_BUYER}")
+	public void setRoleBuyer(Integer roleBuyer) {
+		ROLE_BUYER = roleBuyer;
 	}
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.hooya.shop.dao.extend.SysRoleExtendDAO">
+  <resultMap id="BaseResultMap" type="top.hooya.shop.common.pojo.SysRoleVo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+    <collection property="menuIds" column="id" select="selectMenuByRoleId"></collection>
+  </resultMap>
+  <select id="selectRoleMenu" resultMap="BaseResultMap">
+    select *
+    from sys_role
+    where del_flag=0
+    <if test="keyWord!=null">
+      and role_name like "%"#{keyWord}"%"
+    </if>
+  </select>
+  <select id="selectMenuByRoleId" resultType="int">
+    select sys_role_menu.menu_id
+    from sys_role_menu
+    where role_id = #{id}
+  </select>
+</mapper>

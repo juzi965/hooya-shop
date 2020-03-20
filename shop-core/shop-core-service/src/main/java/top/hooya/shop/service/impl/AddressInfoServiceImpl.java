@@ -8,6 +8,7 @@ import top.hooya.shop.pojo.AddressInfo;
 import top.hooya.shop.pojo.AddressInfoExample;
 import top.hooya.shop.service.AddressInfoService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +40,7 @@ public class AddressInfoServiceImpl implements AddressInfoService {
 
     @Override
     public int addAddressInfoByUserId(AddressInfo addressInfo) {
+        addressInfo.setCreateTime(new Date());
         return addressInfoDAO.insertSelective(addressInfo);
     }
 }
