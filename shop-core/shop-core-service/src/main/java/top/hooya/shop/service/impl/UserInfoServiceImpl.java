@@ -152,6 +152,35 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return sysRoleUserDAO.insertSelective(sysRoleUser);
 	}
 
+	@Override
+	public Long validate(Integer id,String keyWord) {
+		Long count;
+		if(id==null){
+			UserInfoExample example = new UserInfoExample();
+			Criteria criteriaByUsername = example.createCriteria(); /*用户名*/
+			Criteria criteriaByEmail = example.createCriteria();	/*邮箱*/
+			Criteria criteriaByPhoneNum = example.createCriteria();	/*手机号*/
+			criteriaByUsername.andUserNameEqualTo(keyWord);
+			criteriaByEmail.andEmailEqualTo(keyWord);
+			criteriaByPhoneNum.andPhoneNumEqualTo(keyWord);
+			example.or(criteriaByEmail);
+			example.or(criteriaByPhoneNum);
+			count = userInfoDAO.countByExample(example);
+		}else{
+			UserInfoExample example = new UserInfoExample();
+			Criteria criteriaByUsername = example.createCriteria(); /*用户名*/
+			Criteria criteriaByEmail = example.createCriteria();	/*邮箱*/
+			Criteria criteriaByPhoneNum = example.createCriteria();	/*手机号*/
+			criteriaByUsername.andUserNameEqualTo(keyWord).andIdNotEqualTo(id);
+			criteriaByEmail.andEmailEqualTo(keyWord).andIdNotEqualTo(id);
+			criteriaByPhoneNum.andPhoneNumEqualTo(keyWord).andIdNotEqualTo(id);
+			example.or(criteriaByEmail);
+			example.or(criteriaByPhoneNum);
+			count = userInfoDAO.countByExample(example);
+		}
+		return count;
+	}
+
 	private List<SysMenu> getChildren(Integer parentId,List<SysMenu> sysMenuList){
 		List<SysMenu> secondMenuList = new ArrayList<>();
 		for (SysMenu sysMenu: sysMenuList){

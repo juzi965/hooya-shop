@@ -30,4 +30,6 @@ public interface UserInfoService {
     List<SysMenuExtend> getMenuListByUserId(Integer userId);
 
     int register(UserInfo userInfo);
+
+	Long validate(Integer id,String userName);
 }

@@ -113,7 +113,7 @@
       #{birthday,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="top.hooya.shop.pojo.UserInfo">
+  <insert id="insertSelective" parameterType="top.hooya.shop.pojo.UserInfo" useGeneratedKeys="true" keyProperty="id">
     insert into user_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

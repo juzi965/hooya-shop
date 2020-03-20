@@ -94,10 +94,30 @@ public class UserController {
 		return count>0?Result.success(count):Result.error("撤销失败");
 	}
 
+	@PassToken
 	@PostMapping("/register")
 	public Result register(UserInfo userInfo){
 		int count  = userInfoService.register(userInfo);
 		return count>0?Result.success(count):Result.error("注册失败");
+	}
+
+	@PassToken
+	@PostMapping("/validateUserName")
+	public Result validateUserName(Integer id,String userName){
+		Long count =  userInfoService.validate(id,userName);
+		return count>0?Result.error("用户名已被注册"):Result.success("该用户名可以使用");
+	}
+	@PassToken
+	@PostMapping("/validateEmail")
+	public Result validateEmail(Integer id,String email){
+		Long count =  userInfoService.validate(id,email);
+		return count>0?Result.error("邮箱已被注册"):Result.success("该邮箱可以使用");
+	}
+	@PassToken
+	@PostMapping("/validatePhone")
+	public Result validatePhone(Integer id,String phoneNum){
+		Long count =  userInfoService.validate(id,phoneNum);
+		return count>0?Result.error("手机号已被注册"):Result.success("该手机号可以使用");
 	}
 
 
