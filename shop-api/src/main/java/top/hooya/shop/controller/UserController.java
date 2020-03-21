@@ -3,18 +3,15 @@ package top.hooya.shop.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import top.hooya.shop.common.pojo.*;
 import top.hooya.shop.common.result.Result;
 import top.hooya.shop.common.utils.JwtUtil;
-import top.hooya.shop.pojo.SysMenu;
-import top.hooya.shop.pojo.SysRole;
 import top.hooya.shop.pojo.UserInfo;
-import top.hooya.shop.pojo.extend.SysMenuExtend;
 import top.hooya.shop.pojo.extend.UserInfoExtend;
 import top.hooya.shop.service.UserInfoService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/api/user")
@@ -33,7 +30,7 @@ public class UserController {
 
 	@PassToken
 	@PostMapping("/login")
-	public Result login(LoginVo vo){
+	public Result login(@Validated LoginVo vo){
 		UserInfo userInfo = userInfoService.getUserInfoByLoginVo(vo);
 		if (userInfo==null){
 			return Result.error("账号或密码错误");
@@ -53,7 +50,7 @@ public class UserController {
 
 	@UserLoginToken
 	@PostMapping("/saveUserInfo")
-    public Result saveUserInfo(UserInfo userInfo){
+    public Result saveUserInfo(@Validated UserInfo userInfo){
         int count = userInfoService.saveUserInfo(userInfo);
         return count > 0 ? Result.success(count) : Result.error("保存信息失败");
     }

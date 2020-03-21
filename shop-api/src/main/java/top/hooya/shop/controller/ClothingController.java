@@ -3,6 +3,7 @@ package top.hooya.shop.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import top.hooya.shop.common.pojo.ClothingInfoVo;
@@ -44,13 +45,13 @@ public class ClothingController {
     }
     @UserLoginToken
     @PostMapping("/add")
-    public Result saveClothing(@RequestBody ClothingInfoVo vo) {
+    public Result saveClothing(@RequestBody @Validated  ClothingInfoVo vo) {
         ClothingInfo clothingInfo = clothingInfoService.saveClothing(vo);
         return clothingInfo!=null?Result.success(clothingInfo.getId()):Result.error("服装信息保存失败");
     }
     @UserLoginToken
     @PostMapping("/edit")
-    public Result editClothing(@RequestBody ClothingInfoVo vo) {
+    public Result editClothing(@RequestBody @Validated ClothingInfoVo vo) {
         int count = clothingInfoService.editClothing(vo);
         return count>0?Result.success(count):Result.error("服装信息保存失败");
     }

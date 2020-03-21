@@ -19,7 +19,7 @@ import java.util.Map;
 public class AliPayUtil {
 
     public static String getQrCode(String orderId,String totalAmount,String orderTitle) {
-        AlipayClient alipayClient = new DefaultAlipayClient(PropertiesUtil.AILPAY_URL,PropertiesUtil.APP_ID,PropertiesUtil.APP_PRIVATE_KEY,"json","UTF-8",PropertiesUtil.ALIPAY_PUBLIC_KEY,"RSA2");
+        AlipayClient alipayClient = new DefaultAlipayClient(PropertiesUtil.ALIPAY_URL,PropertiesUtil.APP_ID,PropertiesUtil.APP_PRIVATE_KEY,"json","UTF-8",PropertiesUtil.ALIPAY_PUBLIC_KEY,"RSA2");
         AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();
         request.setBizContent("{" +
                 "    \"out_trade_no\":\""+orderId+"\"," +//商户订单号
@@ -39,7 +39,7 @@ public class AliPayUtil {
 
     public static Map<String,String> getPayState(String orderId){
         Map<String,String> map = new HashMap<>();
-        AlipayClient alipayClient = new DefaultAlipayClient(PropertiesUtil.AILPAY_URL,PropertiesUtil.APP_ID,PropertiesUtil.APP_PRIVATE_KEY,"json","UTF-8",PropertiesUtil.ALIPAY_PUBLIC_KEY,"RSA2");
+        AlipayClient alipayClient = new DefaultAlipayClient(PropertiesUtil.ALIPAY_URL,PropertiesUtil.APP_ID,PropertiesUtil.APP_PRIVATE_KEY,"json","UTF-8",PropertiesUtil.ALIPAY_PUBLIC_KEY,"RSA2");
         AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
         request.setBizContent("{\"out_trade_no\":\""+orderId+"\"}"); //设置业务参数
         try {

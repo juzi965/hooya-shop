@@ -1,8 +1,13 @@
 package top.hooya.shop.common.pojo;
 
+
+import javax.validation.constraints.NotNull;
+
 public class LoginVo {
 
+	@NotNull(message ="{login.accountName.null}")
 	private String accountName;
+	@NotNull(message ="{login.password.null}")
 	private String password;
 
 	public String getAccountName() {

@@ -1,5 +1,8 @@
 package top.hooya.shop.pojo;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,10 +13,14 @@ import java.util.Date;
 public class ClothingAttr implements Serializable {
     private Integer id;
 
+    @NotBlank(message = "{clothingAttr.size.null}")
+    @Size(min = 2,max = 20,message = "{clothingAttr.size.size}")
     private String size;
 
+    @Min(value = 0,message = "{clothingAttr.price.min}")
     private Double price;
 
+    @Min(value = 0,message = "{clothingAttr.stock.min}")
     private Integer stock;
 
     private Integer clothingId;

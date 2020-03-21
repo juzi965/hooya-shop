@@ -1,6 +1,7 @@
 package top.hooya.shop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import top.hooya.shop.common.pojo.CurrentUser;
 import top.hooya.shop.common.pojo.UserLoginToken;
@@ -37,7 +38,7 @@ public class AddressController {
     }
     @UserLoginToken
     @PostMapping("/changeAddress")
-    public Result changeAddress(AddressInfo addressInfo){
+    public Result changeAddress(@Validated AddressInfo addressInfo){
         int count;
         if (addressInfo.getId()!=null){
             count  = addressInfoService.changeAddressInfoById(addressInfo);

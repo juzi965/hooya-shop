@@ -1,5 +1,8 @@
 package top.hooya.shop.pojo;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,10 +13,16 @@ import java.util.Date;
 public class AddressInfo implements Serializable {
     private Integer id;
 
+    @NotBlank(message = "{addressInfo.recipient.null}")
+    @Size(min = 1,max = 15,message = "{addressInfo.recipient.size}")
     private String recipient;
 
+    @NotBlank(message = "{addressInfo.phoneNum.null}")
+    @Pattern(regexp = "^0{0,1}(13|15|16|18|19)[0-9]{9}$",message = "{addressInfo.phoneNum.pattern}")
     private String phoneNum;
 
+    @NotBlank(message = "{addressInfo.address.null}")
+    @Size(min = 5,max = 50,message = "{addressInfo.address.size}")
     private String address;
 
     private Integer userId;

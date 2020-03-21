@@ -23,6 +23,11 @@ public class PropertiesUtil {
 	public static Integer OTHER_ERROR_CODE;
 
 	/**
+	 * 其他错误状态码
+	 */
+	public static Integer PARAMS_ERROR_CODE;
+
+	/**
 	 * token验证失败状态码
 	 */
 	public static Integer TOKEN_VERIFY_FAIL;
@@ -78,7 +83,7 @@ public class PropertiesUtil {
 	/**
 	 * 支付宝网关
 	 */
-	public static String AILPAY_URL;
+	public static String ALIPAY_URL;
 
 	/**
 	 * 应付应用私钥
@@ -117,6 +122,10 @@ public class PropertiesUtil {
 	@Value("${TOKEN_VERIFY_FAIL}")
 	public void setTokenVerifyFail(Integer tokenVerifyFail) {
 		TOKEN_VERIFY_FAIL = tokenVerifyFail;
+	}
+	@Value("${PARAMS_ERROR_CODE}")
+	public void setParamsErrorCode(Integer paramsErrorCode) {
+		PARAMS_ERROR_CODE = paramsErrorCode;
 	}
 
 	@Value("${DEL_FLAG}")
@@ -159,9 +168,9 @@ public class PropertiesUtil {
 	public  void setAppId(String appId) {
 		APP_ID = appId;
 	}
-	@Value("${AILPAY_URL}")
-	public void setAilpayUrl(String ailpayUrl) {
-		AILPAY_URL = ailpayUrl;
+	@Value("${ALIPAY_URL}")
+	public void setAlipayUrl(String alipayUrl) {
+		ALIPAY_URL = alipayUrl;
 	}
 	@Value("${APP_PRIVATE_KEY}")
 	public void setAppPrivateKey(String appPrivateKey) {

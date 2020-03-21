@@ -2,6 +2,8 @@ package top.hooya.shop.common.pojo;
 
 import top.hooya.shop.pojo.ClothingAttr;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 /**
@@ -10,8 +12,17 @@ import java.util.List;
  */
 public class ClothingInfoVo {
     private Integer clothingId;
+
+    @NotBlank(message = "{clothingInfoVo.clothingName.null}")
+    @Size(min = 2,max = 20,message = "{clothingInfoVo.clothingName.size}")
     private String clothingName;
+
+    @NotBlank(message = "{clothingInfoVo.category.null}")
+    @Size(min = 2,max = 20,message = "{clothingInfoVo.category.size}")
     private String category;
+
+    @NotBlank(message = "{clothingInfoVo.clothingContent.null}")
+    @Size(min = 2,max = 50,message = "{clothingInfoVo.clothingContent.size}")
     private String clothingContent;
 
     private List<ClothingAttr> attrList;

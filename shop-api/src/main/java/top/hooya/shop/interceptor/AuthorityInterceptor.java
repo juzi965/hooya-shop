@@ -14,6 +14,7 @@ import top.hooya.shop.common.pojo.PassToken;
 import top.hooya.shop.common.pojo.UserLoginToken;
 import top.hooya.shop.common.result.Result;
 import top.hooya.shop.common.utils.PropertiesUtil;
+import top.hooya.shop.exception.CustomException;
 import top.hooya.shop.pojo.UserInfo;
 import top.hooya.shop.service.UserInfoService;
 
@@ -59,25 +60,25 @@ public class AuthorityInterceptor implements HandlerInterceptor {
 			if (userLoginToken.required()) {
 				// 执行认证
 				if (StringUtils.isEmpty(token)) {
-					throw new RuntimeException("请登录后再进行相关操作！");
+					throw new CustomException(PropertiesUtil.TOKEN_VERIFY_FAIL ,"请登录后再进行相关操作！");
 				}
 				// 获取 token 中的 user id
 				int userId;
 				try {
 					userId = Integer.parseInt(JWT.decode(token).getAudience().get(0));
 				} catch (JWTDecodeException j) {
-					throw new RuntimeException("获取用户信息失败，请重新登录！");
+					throw new CustomException(PropertiesUtil.TOKEN_VERIFY_FAIL ,"获取用户信息失败，请重新登录！");
 				}
 				UserInfo userInfo = userInfoService.getUserInfoById(userId);
 				if (userInfo == null) {
-					throw new RuntimeException("用户不存在，请重新登录！");
+					throw new CustomException(PropertiesUtil.TOKEN_VERIFY_FAIL ,"用户不存在，请重新登录！");
 				}
 				// 验证 token
 				JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(userInfo.getPassword())).build();
 				try {
 					jwtVerifier.verify(token);
 				} catch (JWTVerificationException e) {
-					throw new RuntimeException("权限验证失败，请重新登录");
+					throw new CustomException(PropertiesUtil.TOKEN_VERIFY_FAIL ,"权限验证失败，请重新登录");
 				}
 				//将验证通过后的用户信息放到请求中
 				userInfo.setPassword("");

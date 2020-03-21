@@ -1,5 +1,6 @@
 package top.hooya.shop.pojo;
 
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,16 +11,28 @@ import java.util.Date;
 public class UserInfo implements Serializable {
     private Integer id;
 
+    @NotBlank(message ="{userInfo.userName.null}")
+    @Size(min = 2,max = 10,message = "{userInfo.userName.size}")
     private String userName;
 
+    @NotBlank(message ="{userInfo.email.null}")
+    @Email(message = "{userInfo.email.validation}")
     private String email;
 
+    @NotBlank(message ="{userInfo.phoneNum.null}")
+    @Pattern(regexp = "^0{0,1}(13|15|16|18|19)[0-9]{9}$",message = "{userInfo.phoneNum.pattern}")
     private String phoneNum;
 
+//    @NotBlank(message ="{userInfo.password.null}")
+//    @Size(min = 6,max = 18,message = "{userInfo.password.size}")
     private String password;
 
+    @NotBlank(message ="{userInfo.gender.null}")
+    @Size(min = 1,max = 2,message = "{userInfo.gender.size}")
     private String gender;
 
+    @NotNull(message ="{userInfo.birthday.null}")
+    @Past(message = "{userInfo.birthday.validation}")
     private Date birthday;
 
     private Date createTime;

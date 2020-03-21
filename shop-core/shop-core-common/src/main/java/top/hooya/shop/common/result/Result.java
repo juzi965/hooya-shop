@@ -52,9 +52,11 @@ public class Result {
 	public static Result error(String message) {
 		return new Result(PropertiesUtil.OTHER_ERROR_CODE,message);
 	}
-	public static Result unauthorized(String message){
-		return new Result(PropertiesUtil.TOKEN_VERIFY_FAIL,message);
+
+	public static Result failed(Integer code,String message){
+		return new Result(code,message);
 	}
+
 
 
 	@Override
