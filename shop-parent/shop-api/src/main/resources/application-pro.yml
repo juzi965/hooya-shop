@@ -1,0 +1,22 @@
+# 端口号
+server:
+  port: 9999
+
+# 数据库连接
+spring:
+  datasource:
+    username: root
+    password: 965123
+    url: jdbc:mysql://127.0.0.1:3306/hooya_shop?useUnicode=true&characterEncoding=utf8&serverTimezone=Hongkong
+    type: com.alibaba.druid.pool.DruidDataSource
+
+# mybatis
+mybatis:
+  type-aliases-package: top.hooya.shop.pojo
+
+## pagehelper分页插件配置
+pagehelper:
+  helper-dialect: mysql
+  page-size-zero: true
+  reasonable: true
+  support-methods-arguments: true
