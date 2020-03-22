@@ -12,6 +12,7 @@
     <description>持久层</description>
 
     <dependencies>
+        <!-- local model dependency -->
         <dependency>
             <groupId>top.hooya.shop</groupId>
             <artifactId>shop-core-pojo</artifactId>
@@ -22,11 +23,12 @@
             <artifactId>shop-core-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <!-- mybatis -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>${mybatis.version}</version>
         </dependency>
+        <!-- mysql -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>

@@ -12,6 +12,7 @@
 	<description>实体类</description>
 
 	<dependencies>
+		<!-- validation -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>

@@ -12,6 +12,7 @@
     <description>逻辑层</description>
 
     <dependencies>
+        <!-- local model dependency -->
         <dependency>
             <groupId>top.hooya.shop</groupId>
             <artifactId>shop-core-common</artifactId>

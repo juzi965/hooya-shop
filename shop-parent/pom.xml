@@ -13,8 +13,12 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.2.2.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
+	<modules>
+		<module>shop-core</module>
+		<module>shop-api</module>
+	</modules>
 	<properties>
 		<java.version>1.8</java.version>
 		<alibaba.fastjson>1.2.62</alibaba.fastjson>
@@ -28,9 +32,62 @@
 		<commons-lang>2.6</commons-lang>
 	</properties>
 
-	<modules>
-		<module>shop-api</module>
-		<module>shop-core</module>
-	</modules>
-
+	<dependencyManagement>
+		<dependencies>
+			<!-- fastJson -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${alibaba.fastjson}</version>
+			</dependency>
+			<!-- druid -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid-spring-boot-starter</artifactId>
+				<version>${alibaba.druid}</version>
+			</dependency>
+			<!-- pagehelper -->
+			<dependency>
+				<groupId>com.github.pagehelper</groupId>
+				<artifactId>pagehelper-spring-boot-starter</artifactId>
+				<version>${github.pagehelper}</version>
+			</dependency>
+			<!-- mybatis -->
+			<dependency>
+				<groupId>org.mybatis.spring.boot</groupId>
+				<artifactId>mybatis-spring-boot-starter</artifactId>
+				<version>${mybatis.version}</version>
+			</dependency>
+			<!-- ava-jwt -->
+			<dependency>
+				<groupId>com.auth0</groupId>
+				<artifactId>java-jwt</artifactId>
+				<version>${auth0.jwt}</version>
+			</dependency>
+			<!-- alipay -->
+			<dependency>
+				<groupId>com.alipay.sdk</groupId>
+				<artifactId>alipay-sdk-java</artifactId>
+				<version>${alipay.sdk}</version>
+			</dependency>
+			<!-- httpclient -->
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>${httpcomponents.httpclient}</version>
+			</dependency>
+			<!-- httpcore -->
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpcore</artifactId>
+				<version>${httpcomponents.httpcore}</version>
+			</dependency>
+			<!-- commons-lang -->
+			<dependency>
+				<groupId>commons-lang</groupId>
+				<artifactId>commons-lang</artifactId>
+				<version>${commons-lang}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>

@@ -1,25 +1,24 @@
 # 端口号
 server:
-  port: 8888
+    port: 8888
 
-# 数据库连接
+# 数据库配置
 spring:
-  datasource:
-    username: root
-    password: 965123
-    url: jdbc:mysql://127.0.0.1:3306/hooya_shop?useUnicode=true&characterEncoding=utf8&serverTimezone=Hongkong
-    type: com.alibaba.druid.pool.DruidDataSource
+    datasource:
+        username: root
+        password: 965123
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://127.0.0.1:3306/hooya_shop?useUnicode=true&characterEncoding=utf8&serverTimezone=Hongkong
 
 # mybatis
 mybatis:
-  type-aliases-package: top.hooya.shop.pojo
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    type-aliases-package: top.hooya.shop.pojo
+    configuration:
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-## pagehelper分页插件配置
+# pagehelper
 pagehelper:
-  helper-dialect: mysql
-  page-size-zero: true
-  reasonable: true
-  support-methods-arguments: true
-
+    helper-dialect: mysql
+    page-size-zero: true
+    reasonable: true
+    support-methods-arguments: true

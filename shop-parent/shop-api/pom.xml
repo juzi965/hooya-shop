@@ -12,6 +12,7 @@
 	<description>接口</description>
 
 	<dependencies>
+		<!-- local model dependency -->
 		<dependency>
 			<groupId>top.hooya.shop</groupId>
 			<artifactId>shop-core-common</artifactId>
@@ -27,7 +28,7 @@
 			<artifactId>shop-core-service</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<!--spring-->
+		<!-- spring -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -36,32 +37,25 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
-		<!--spring end-->
-
-		<!--fastJson-->
+		<!-- druid -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid-spring-boot-starter</artifactId>
+		</dependency>
+		<!-- fastJson -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>${alibaba.fastjson}</version>
 		</dependency>
-		<!--fastJson end-->
-		<!--druid-->
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>druid</artifactId>
-			<version>${alibaba.druid}</version>
-		</dependency>
-		<!--druid end-->
+		<!-- pagehelper -->
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper-spring-boot-starter</artifactId>
-			<version>${github.pagehelper}</version>
 		</dependency>
-
+		<!-- ava jwt -->
 		<dependency>
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>
-			<version>${auth0.jwt}</version>
 		</dependency>
 
 		<dependency>
