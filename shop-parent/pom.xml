@@ -2,11 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>top.hooya.shop</groupId>
 	<artifactId>shop-parent</artifactId>
+	<name>shop-parent</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>shop-parent</name>
 	<description>父工程</description>
 
 	<parent>
@@ -21,15 +22,15 @@
 	</modules>
 	<properties>
 		<java.version>1.8</java.version>
-		<alibaba.fastjson>1.2.62</alibaba.fastjson>
-		<alibaba.druid>1.1.21</alibaba.druid>
+		<alibaba.fastjson>1.2.67</alibaba.fastjson>
+		<alibaba.druid>1.1.20</alibaba.druid>
 		<github.pagehelper>1.2.13</github.pagehelper>
-		<auth0.jwt>3.4.0</auth0.jwt>
-		<mybatis.version>2.1.1</mybatis.version>
+		<auth0.jwt>3.10.1</auth0.jwt>
+		<mybatis.version>2.1.2</mybatis.version>
 		<alipay.sdk>4.9.71.ALL</alipay.sdk>
-		<httpcomponents.httpclient>4.3.6</httpcomponents.httpclient>
-		<httpcomponents.httpcore>4.2.1</httpcomponents.httpcore>
-		<commons-lang>2.6</commons-lang>
+		<httpcomponents.httpclient>4.5.12</httpcomponents.httpclient>
+		<httpcomponents.httpcore>4.4.13</httpcomponents.httpcore>
+		<commons-lang3>3.9</commons-lang3>
 	</properties>
 
 	<dependencyManagement>
@@ -84,9 +85,9 @@
 			</dependency>
 			<!-- commons-lang -->
 			<dependency>
-				<groupId>commons-lang</groupId>
-				<artifactId>commons-lang</artifactId>
-				<version>${commons-lang}</version>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

@@ -52,5 +52,6 @@
       or clo.clothing_name like "%"#{name}"%"
       or clo.clothing_content like "%"#{name}"%")
     </if>
+    order by clo.create_time desc
   </select>
 </mapper>

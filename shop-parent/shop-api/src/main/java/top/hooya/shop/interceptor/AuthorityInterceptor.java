@@ -12,7 +12,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import top.hooya.shop.common.pojo.PassToken;
 import top.hooya.shop.common.pojo.UserLoginToken;
-import top.hooya.shop.common.result.Result;
+import top.hooya.shop.common.utils.JwtUtil;
 import top.hooya.shop.common.utils.PropertiesUtil;
 import top.hooya.shop.exception.CustomException;
 import top.hooya.shop.pojo.UserInfo;

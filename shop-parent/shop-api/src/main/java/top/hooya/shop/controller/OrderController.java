@@ -52,7 +52,7 @@ public class OrderController {
     @GetMapping("/{pageNum}/{pageSize}")
     public Result getOrderByUserId(@CurrentUser UserInfo userInfo, @PathVariable("pageNum") Integer pageNum, @PathVariable("pageSize") Integer pageSize){
 
-        PageHelper.startPage(pageNum,pageSize,"create_time desc");
+        PageHelper.startPage(pageNum,pageSize);
         List<OrderInfoExtend> orderInfoExtendList = orderInfoService.getOrderByUserId(userInfo.getId());
         PageInfo<OrderInfoExtend> pageInfo = new PageInfo<>(orderInfoExtendList);
 
@@ -62,7 +62,7 @@ public class OrderController {
     @GetMapping("/{keyWord}/{pageNum}/{pageSize}")
     public Result getOrder(@PathVariable("keyWord") String keyWord,@PathVariable("pageNum") Integer pageNum, @PathVariable("pageSize") Integer pageSize){
 
-        PageHelper.startPage(pageNum,pageSize,"create_time desc");
+        PageHelper.startPage(pageNum,pageSize);
         List<OrderInfoExtend> orderInfoExtendList = orderInfoService.getOrder(keyWord);
         PageInfo<OrderInfoExtend> pageInfo = new PageInfo<>(orderInfoExtendList);
 

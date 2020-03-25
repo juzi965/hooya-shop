@@ -33,7 +33,7 @@ public class ClothingController {
 
     @GetMapping("/category/{name}/{pageNum}/{pageSize}")
     public Result getClothing(@PathVariable("name") String name, @PathVariable("pageNum") Integer pageNum, @PathVariable("pageSize") Integer pageSize){
-        PageHelper.startPage(pageNum,pageSize,"create_time desc");
+        PageHelper.startPage(pageNum,pageSize);
         List<ClothingInfoExtend> clothingInfoList = clothingInfoService.getClothingByCategory(name);
         PageInfo<ClothingInfoExtend> pageInfo = new PageInfo<>(clothingInfoList);
         return Result.success(pageInfo);

@@ -1,20 +1,25 @@
 # 端口号
 server:
     port: 8888
+    tomcat:
+        uri-encoding: utf-8
 
 # 数据库配置
 spring:
     datasource:
-        username: root
-        password: 965123
+        name: druidDataSource
         type: com.alibaba.druid.pool.DruidDataSource
-        url: jdbc:mysql://127.0.0.1:3306/hooya_shop?useUnicode=true&characterEncoding=utf8&serverTimezone=Hongkong
+        druid:
+            driver-class-name: com.mysql.cj.jdbc.Driver
+            url: jdbc:mysql://127.0.0.1:3306/hooya_shop?useUnicode=true&characterEncoding=utf8&serverTimezone=Hongkong
+            username: root
+            password: 965123
 
 # mybatis
 mybatis:
     type-aliases-package: top.hooya.shop.pojo
-    configuration:
-        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    configuration:
+#        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 # pagehelper
 pagehelper:

@@ -72,7 +72,7 @@ public class UserController {
 	@GetMapping("/{keyWord}/{pageNum}/{pageSize}")
 	public Result getUser(@PathVariable("keyWord") String keyWord, @PathVariable("pageNum") Integer pageNum, @PathVariable("pageSize") Integer pageSize){
 
-		PageHelper.startPage(pageNum,pageSize,"id asc");
+		PageHelper.startPage(pageNum,pageSize);
 		List<UserInfoExtend> userInfoExtendList = userInfoService.getUser(keyWord);
 		PageInfo<UserInfoExtend> pageInfo = new PageInfo<>(userInfoExtendList);
 

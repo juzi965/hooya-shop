@@ -26,7 +26,7 @@ public class SysRoleController {
     @GetMapping("/{keyWord}/{pageNum}/{pageSize}")
     public Result getRole(@PathVariable("keyWord") String keyWord, @PathVariable("pageNum") Integer pageNum, @PathVariable("pageSize") Integer pageSize){
 
-        PageHelper.startPage(pageNum,pageSize,"id asc");
+        PageHelper.startPage(pageNum,pageSize);
         List<SysRoleVo> sysRoleList = sysRoleService.getRole(keyWord);
         PageInfo<SysRoleVo> pageInfo = new PageInfo<>(sysRoleList);
 

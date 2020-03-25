@@ -32,6 +32,7 @@
       or ui.phone_num like "%"#{keyWord}"%"
       or ui.gender like "%"#{keyWord}"%")
     </if>
+    order by ui.id asc
   </select>
 
   <select id="selectMenuListByUserId" resultMap="MenuResultMap">

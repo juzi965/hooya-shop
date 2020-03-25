@@ -34,6 +34,7 @@
     from order_info oin
     where oin.user_id=#{userId}
     and oin.del_flag=0
+    order by oin.create_time desc
   </select>
   <select id="selectOrderByOrderId" resultMap="BaseResultMap">
     select oin.*
@@ -53,6 +54,7 @@
     or oin.address like "%"#{keyWord}"%"
     or oin.express_num like "%"#{keyWord}"%")
     </if>
+    order by oin.create_time desc
   </select>
   <select id="selectOrderItemExtendByOrderId" resultMap="OrderItemExtendMap">
     select oit.id item_id,oit.clothing_id,oit.size,oit.num,oit.price,oit.img_url,clo.clothing_name,clo.clothing_content,clo.category

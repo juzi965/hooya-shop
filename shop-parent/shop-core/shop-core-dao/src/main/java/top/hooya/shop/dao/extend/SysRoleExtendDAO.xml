@@ -15,6 +15,7 @@
     <if test="keyWord!=null">
       and role_name like "%"#{keyWord}"%"
     </if>
+    order by id asc
   </select>
   <select id="selectMenuByRoleId" resultType="int">
     select sys_role_menu.menu_id

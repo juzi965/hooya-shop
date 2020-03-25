@@ -14,9 +14,9 @@
     <!--输出到控制台，一个appender定义一种输出策略，可以定义多个-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <!--filter中定义要输出的日志级别，例如：输出info级别以上的日志，默认是info-->
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>info</level>
-        </filter>
+<!--        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+<!--            <level>info</level>-->
+<!--        </filter>-->
         <!--日志输出编码格式化-->
         <encoder>
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
@@ -127,11 +127,15 @@
         </encoder>
     </appender>
 
+
+
+
     <!--开发环境-->
     <springProfile name="dev">
-
+        <logger name="top.hooya.shop.dao" level="DEBUG"/>
+        <logger name="org.springframework.web.servlet" level="DEBUG" />
         <!--必选节点，用来指定最基础的日志输出级别-->
-        <root level="DEBUG">
+        <root level="INFO">
 
             <appender-ref ref="logDebugFile"/>
 
@@ -143,7 +147,6 @@
 
             <appender-ref ref="console"/>
 
-            <!--<appender-ref ref="DBAPPENDER"/>-->
 
         </root>
 
@@ -151,8 +154,13 @@
 
     <!--生产环境-->
     <springProfile name="pro">
+
+        <logger name="top.hooya.shop.dao" level="DEBUG"/>
+
         <!--必选节点，用来指定最基础的日志输出级别-->
         <root level="INFO">
+
+            <appender-ref ref="logDebugFile"/>
 
             <appender-ref ref="logInfoFile"/>
 
@@ -160,7 +168,6 @@
 
             <appender-ref ref="logErrorFile"/>
 
-            <appender-ref ref="console"/>
 
         </root>
 
