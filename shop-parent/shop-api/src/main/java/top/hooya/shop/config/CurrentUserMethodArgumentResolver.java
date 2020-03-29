@@ -26,7 +26,7 @@ public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentR
 
     @Override
     public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
-        UserInfo userInfo = (UserInfo)nativeWebRequest.getAttribute("currentUser", RequestAttributes.SCOPE_REQUEST);
+        UserInfo userInfo = (UserInfo) nativeWebRequest.getAttribute("currentUser", RequestAttributes.SCOPE_REQUEST);
         if (userInfo != null) {
             return userInfo;
         }

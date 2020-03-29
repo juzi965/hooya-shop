@@ -25,86 +25,90 @@ import java.util.Set;
 @Configuration
 public class CustomWebMvcConfigurer implements WebMvcConfigurer {
 
-	//	解决此类中自动注入为NULL的情况
-	@Bean
-	public AuthorityInterceptor getMyInterceptor() {
-		return new AuthorityInterceptor();
-	}
+    //	解决此类中自动注入为NULL的情况
+    @Bean
+    public AuthorityInterceptor getMyInterceptor() {
+        return new AuthorityInterceptor();
+    }
 
-	/**
-	 * 拦截器配置
-	 * @param registry
-	 */
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		// sql注入拦截器
-		registry.addInterceptor(new SqlInjectInterceptor()).addPathPatterns("/**");
-		registry.addInterceptor(getMyInterceptor()).addPathPatterns("/**");
+    /**
+     * 拦截器配置
+     *
+     * @param registry
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // sql注入拦截器
+        registry.addInterceptor(new SqlInjectInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(getMyInterceptor()).addPathPatterns("/**");
 
-		WebMvcConfigurer.super.addInterceptors(registry);
-	}
+        WebMvcConfigurer.super.addInterceptors(registry);
+    }
 
-	/**
-	 * 跨域请求全局配置
-	 * @param registry
-	 */
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/api/**")
+    /**
+     * 跨域请求全局配置
+     *
+     * @param registry
+     */
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/api/**")
 //				.allowedHeaders("Authorization","Token") // 允许的请求头信息
 //				.allowedMethods("POST") // 仅允许POST
-				.allowedOrigins("*");//允许域名访问，如果*，代表所有域名
+                .allowedOrigins("*");//允许域名访问，如果*，代表所有域名
 
-		WebMvcConfigurer.super.addCorsMappings(registry);
-	}
+        WebMvcConfigurer.super.addCorsMappings(registry);
+    }
 
-	/**
-	 * 返回json字符串处理
-	 * @param converters
-	 */
-	@Override
-	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
-		FastJsonConfig fastJsonConfig = new FastJsonConfig();
-		fastJsonConfig.setCharset(StandardCharsets.UTF_8);
-		fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
-		fastJsonConfig.setSerializerFeatures(
-				// 消除对同一对象循环引用的问题，默认为false（如果不配置有可能会进入死循环）
-				SerializerFeature.DisableCircularReferenceDetect,
-				// List字段如果为null,输出为[],而非null
-				SerializerFeature.WriteNullListAsEmpty,
-				// 字符类型字段如果为null,输出为"",而非null
-				SerializerFeature.WriteNullStringAsEmpty,
-				// Boolean字段如果为null,输出为false,而非null
-				SerializerFeature.WriteNullBooleanAsFalse,
-				// 是否输出值为null的字段,默认为false
-				SerializerFeature.WriteMapNullValue,
-				// 默认为yyyy-MM-dd HH:mm:ss
-				SerializerFeature.WriteDateUseDateFormat
-		);
-		fastJsonHttpMessageConverter.setFastJsonConfig(fastJsonConfig);
-		converters.add(0,fastJsonHttpMessageConverter);
-	}
+    /**
+     * 返回json字符串处理
+     *
+     * @param converters
+     */
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
+        FastJsonConfig fastJsonConfig = new FastJsonConfig();
+        fastJsonConfig.setCharset(StandardCharsets.UTF_8);
+        fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
+        fastJsonConfig.setSerializerFeatures(
+                // 消除对同一对象循环引用的问题，默认为false（如果不配置有可能会进入死循环）
+                SerializerFeature.DisableCircularReferenceDetect,
+                // List字段如果为null,输出为[],而非null
+                SerializerFeature.WriteNullListAsEmpty,
+                // 字符类型字段如果为null,输出为"",而非null
+                SerializerFeature.WriteNullStringAsEmpty,
+                // Boolean字段如果为null,输出为false,而非null
+                SerializerFeature.WriteNullBooleanAsFalse,
+                // 是否输出值为null的字段,默认为false
+                SerializerFeature.WriteMapNullValue,
+                // 默认为yyyy-MM-dd HH:mm:ss
+                SerializerFeature.WriteDateUseDateFormat
+        );
+        fastJsonHttpMessageConverter.setFastJsonConfig(fastJsonConfig);
+        converters.add(0, fastJsonHttpMessageConverter);
+    }
 
-	/**
-	 * 配置全局表单日期转换器
-	 * @param dateConverter
-	 * @return
-	 */
-	@Bean
-	@Autowired
-	public ConversionService getConversionService(DateConverter dateConverter) {
-		ConversionServiceFactoryBean factoryBean = new ConversionServiceFactoryBean();
-		Set<Converter> converters = new HashSet<Converter>();
-		converters.add(dateConverter);
-		factoryBean.setConverters(converters);
+    /**
+     * 配置全局表单日期转换器
+     *
+     * @param dateConverter
+     * @return
+     */
+    @Bean
+    @Autowired
+    public ConversionService getConversionService(DateConverter dateConverter) {
+        ConversionServiceFactoryBean factoryBean = new ConversionServiceFactoryBean();
+        Set<Converter> converters = new HashSet<Converter>();
+        converters.add(dateConverter);
+        factoryBean.setConverters(converters);
 
-		return factoryBean.getObject();
-	}
+        return factoryBean.getObject();
+    }
 
-	@Override
-	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-		WebMvcConfigurer.super.addArgumentResolvers(resolvers);
-		resolvers.add(new CurrentUserMethodArgumentResolver());
-	}
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        WebMvcConfigurer.super.addArgumentResolvers(resolvers);
+        resolvers.add(new CurrentUserMethodArgumentResolver());
+    }
 }

@@ -4,13 +4,15 @@ import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import top.hooya.shop.common.pojo.StatisticalData;
 import top.hooya.shop.common.pojo.UserLoginToken;
 import top.hooya.shop.common.result.Result;
 import top.hooya.shop.common.utils.HttpUtils;
 import top.hooya.shop.service.OtherService;
-import top.hooya.shop.websocket.WebSocket;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,12 +29,9 @@ public class OtherController {
     @Autowired
     private OtherService otherService;
 
-    @Autowired
-    private WebSocket webSocket;
-
     @UserLoginToken
     @PostMapping("/kdi")
-    public Result getKdi(String no){
+    public Result getKdi(String no) {
         String host = "https://wuliu.market.alicloudapi.com";
         String path = "/kdi";
         String method = "GET";
@@ -49,17 +48,11 @@ public class OtherController {
         }
         return Result.error("获取物流信息失败");
     }
-    @UserLoginToken
-    @GetMapping("/today")
-    public Result getTodayData(){
-        StatisticalData statisticalData =  otherService.getTodayData();
-        return Result.success(statisticalData);
-    }
 
     @UserLoginToken
     @GetMapping("/month")
-    public Result getMonthData(){
-        List<StatisticalData> dataList =  otherService.getMonthData();
+    public Result getMonthData() {
+        List<StatisticalData> dataList = otherService.getMonthData();
         return Result.success(dataList);
     }
 }

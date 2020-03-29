@@ -22,11 +22,6 @@ public class OtherServiceImpl  implements OtherService {
     @Autowired
     private OrderInfoExtendDAO orderInfoExtendDAO;
 
-    @Override
-    public StatisticalData getTodayData() {
-
-        return orderInfoExtendDAO.selectTodayStatisticalData();
-    }
 
     @Override
     public List<StatisticalData> getMonthData() {

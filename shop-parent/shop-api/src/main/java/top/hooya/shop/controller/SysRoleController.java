@@ -9,7 +9,6 @@ import top.hooya.shop.common.pojo.UserLoginToken;
 import top.hooya.shop.common.result.Result;
 import top.hooya.shop.service.SysRoleService;
 
-
 import java.util.List;
 
 /**
@@ -24,20 +23,17 @@ public class SysRoleController {
 
     @UserLoginToken
     @GetMapping("/{keyWord}/{pageNum}/{pageSize}")
-    public Result getRole(@PathVariable("keyWord") String keyWord, @PathVariable("pageNum") Integer pageNum, @PathVariable("pageSize") Integer pageSize){
-
-        PageHelper.startPage(pageNum,pageSize);
+    public Result getRole(@PathVariable("keyWord") String keyWord, @PathVariable("pageNum") Integer pageNum, @PathVariable("pageSize") Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
         List<SysRoleVo> sysRoleList = sysRoleService.getRole(keyWord);
         PageInfo<SysRoleVo> pageInfo = new PageInfo<>(sysRoleList);
-
         return Result.success(pageInfo);
     }
+
     @UserLoginToken
     @PostMapping("/save")
-    public Result saveRoleMenu(SysRoleVo sysRoleVo){
-
+    public Result saveRoleMenu(SysRoleVo sysRoleVo) {
         int count = sysRoleService.saveRoleMenu(sysRoleVo);
-
-        return count>0?Result.success(count):Result.error("操作失败");
+        return count > 0 ? Result.success(count) : Result.error("操作失败");
     }
 }

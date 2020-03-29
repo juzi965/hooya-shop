@@ -20,8 +20,9 @@ public class DictController {
 
     @Autowired
     private DictTableService dictTableService;
+
     @GetMapping("/category")
-    public Result getCategory(){
+    public Result getCategory() {
         List<DictTable> categoryList = dictTableService.getCategoryList();
         return Result.success(categoryList);
     }

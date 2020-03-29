@@ -69,28 +69,31 @@
     <result column="salesAmount" jdbcType="INTEGER" property="salesAmount" />
     <result column="salesVolume" jdbcType="INTEGER" property="salesVolume" />
   </resultMap>
-  <select id="selectTodayStatisticalData" resultMap="StatisticalDataMap">
-    select DATE_FORMAT(oin.create_time,'%Y-%m-%d') create_time,sum(oin.total_price) salesAmount
-    ,count(distinct oin.order_id) orderVolume
-    ,(select sum(oit.num)
-        from order_info oin,order_item oit
-        where oin.del_flag=0
-        and oin.pay_flag=1
-        and to_days(oin.create_time) = to_days(now())
-        and oit.order_id = oin.order_id) salesVolume
-    from order_info oin
-    where oin.del_flag=0 and oin.pay_flag=1 and to_days(oin.create_time) = to_days(now())
-	GROUP BY DATE_FORMAT(oin.create_time,'%Y-%m-%d')
-  </select>
   <select id="selectMonthStatisticalData" resultMap="StatisticalDataMap">
-    select DATE_FORMAT(oin.create_time,'%Y-%m-%d') currentDate
+    select tempp.currentDate,ifnull(oinn.salesAmount,0) salesAmount, ifnull(oinn.orderVolume,0) orderVolume,ifnull(oitntemp.num,0) salesVolume
+    from
+    (select (@i := @i + 1) as _index
+    ,DATE(DATE_SUB( CURRENT_DATE, INTERVAL @i DAY )) as currentDate
+    from mysql.help_topic, ( select @i := - 1 ) temp
+    where @i &lt; 29) as tempp left join
+    (select DATE_FORMAT(oin.create_time,'%Y-%m-%d') currentDate
     ,sum(oin.total_price) salesAmount
     ,count(distinct oin.order_id) orderVolume
-    from order_info oin
+    from  order_info oin
     where oin.del_flag=0
     and oin.pay_flag=1
-    and DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;=oin.create_time
-    GROUP BY DATE_FORMAT(oin.create_time,'%Y-%m-%d')
+    group by DATE_FORMAT(oin.create_time,'%Y-%m-%d')) as oinn
+    on oinn.currentDate = tempp.currentDate left join
+
+    (select oitn.currentDate,oitn.num
+    from
+    (select DATE_FORMAT(oin.create_time,'%Y-%m-%d') currentDate, sum(oit.num) num
+    from order_info oin left join
+    order_item oit on oit.order_id=oin.order_id and oin.pay_flag=1
+    GROUP BY DATE_FORMAT(oin.create_time,'%Y-%m-%d') ) as oitn ) as oitntemp
+    on oitntemp.currentDate = tempp.currentDate
+
+    ORDER BY tempp.currentDate
   </select>
   <resultMap id="UserInfoMap" type="top.hooya.shop.pojo.UserInfo">
     <id column="id" jdbcType="INTEGER" property="id" />

@@ -14,17 +14,15 @@ import java.util.List;
  */
 @Repository
 public interface OrderInfoExtendDAO {
-    List<OrderInfoExtend> selectOrderByUserId(@Param("userId")Integer userId);
+    List<OrderInfoExtend> selectOrderByUserId(@Param("userId") Integer userId);
 
-    OrderInfoExtend selectOrderByOrderId(@Param("orderId")String orderId);
+    OrderInfoExtend selectOrderByOrderId(@Param("orderId") String orderId);
 
-    List<OrderInfoExtend> selectOrder(@Param("keyWord")String keyWord);
+    List<OrderInfoExtend> selectOrder(@Param("keyWord") String keyWord);
 
-    StatisticalData selectTodayStatisticalData();
+    UserInfo selectUserInfoByOrderId(@Param("orderId") String orderId);
+
+    List<UserInfo> selectUserInfoByRoleId(@Param("roleId") Integer roleId);
 
     List<StatisticalData> selectMonthStatisticalData();
-
-    UserInfo selectUserInfoByOrderId(@Param("orderId")String orderId);
-
-    List<UserInfo> selectUserInfoByRoleId(@Param("roleId")Integer roleId);
 }

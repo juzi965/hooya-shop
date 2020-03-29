@@ -34,7 +34,7 @@ public class SysRoleServiceImpl implements SysRoleService {
 
     @Override
     public List<SysRoleVo> getRole(String keyWord) {
-        if ("all".equals(keyWord)){
+        if ("all".equals(keyWord)) {
             keyWord = null;
         }
 
@@ -48,7 +48,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         sysRole.setRoleName(sysRoleVo.getRoleName());
         int count;
 
-        if (sysRoleVo.getId()!=null){
+        if (sysRoleVo.getId() != null) {
             sysRole.setId(sysRoleVo.getId());
             sysRole.setDelFlag(sysRoleVo.getDelFlag());
             count = sysRoleDAO.updateByPrimaryKeySelective(sysRole);
@@ -56,23 +56,24 @@ public class SysRoleServiceImpl implements SysRoleService {
             SysRoleMenuExample sysRoleMenuExample = new SysRoleMenuExample();
             sysRoleMenuExample.createCriteria().andRoleIdEqualTo(sysRoleVo.getId());
             sysRoleMenuDAO.deleteByExample(sysRoleMenuExample);
-            if (!PropertiesUtil.DEL_FLAG.equals(sysRoleVo.getDelFlag())&&sysRoleVo.getMenuIds()!=null){
-                for (int i : sysRoleVo.getMenuIds()){
+            if (!PropertiesUtil.DEL_FLAG.equals(sysRoleVo.getDelFlag()) && sysRoleVo.getMenuIds() != null) {
+                for (int i : sysRoleVo.getMenuIds()) {
                     sysRoleMenu.setMenuId(i);
                     sysRoleMenu.setCreateTime(new Date());
                     sysRoleMenuDAO.insertSelective(sysRoleMenu);
                 }
             }
 
-        }else{
+        } else {
             count = sysRoleDAO.insertSelective(sysRole);
             sysRoleMenu.setRoleId(sysRole.getId());
-            for (int i : sysRoleVo.getMenuIds()){
-                sysRoleMenu.setMenuId(i);
-                sysRoleMenu.setCreateTime(new Date());
-                sysRoleMenuDAO.insertSelective(sysRoleMenu);
+            if (sysRoleVo.getMenuIds() != null) {
+                for (int i : sysRoleVo.getMenuIds()) {
+                    sysRoleMenu.setMenuId(i);
+                    sysRoleMenu.setCreateTime(new Date());
+                    sysRoleMenuDAO.insertSelective(sysRoleMenu);
+                }
             }
-
         }
         return count;
     }

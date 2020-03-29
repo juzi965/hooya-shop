@@ -22,20 +22,22 @@ public class SysMenuController {
 
     @UserLoginToken
     @GetMapping("/{keyWord}")
-    public Result getMenu(@PathVariable("keyWord") String keyWord){
+    public Result getMenu(@PathVariable("keyWord") String keyWord) {
         List<SysMenuExtend> sysMenuList = sysMenuService.getMenu(keyWord);
         return Result.success(sysMenuList);
     }
+
     @UserLoginToken
     @PostMapping("/delete")
-    public Result deleteMenu(Integer id){
+    public Result deleteMenu(Integer id) {
         int count = sysMenuService.deleteMenuById(id);
-        return count>0?Result.success(count):Result.error("删除失败");
+        return count > 0 ? Result.success(count) : Result.error("删除失败");
     }
+
     @UserLoginToken
     @PostMapping("/save")
-    public Result saveMenu(SysMenu sysMenu){
+    public Result saveMenu(SysMenu sysMenu) {
         int count = sysMenuService.saveMenu(sysMenu);
-        return count>0?Result.success(count):Result.error("操作失败");
+        return count > 0 ? Result.success(count) : Result.error("操作失败");
     }
 }
