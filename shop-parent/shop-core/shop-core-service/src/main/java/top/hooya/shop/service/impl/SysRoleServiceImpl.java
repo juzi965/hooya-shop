@@ -47,7 +47,6 @@ public class SysRoleServiceImpl implements SysRoleService {
         SysRole sysRole = new SysRole();
         sysRole.setRoleName(sysRoleVo.getRoleName());
         int count;
-
         if (sysRoleVo.getId() != null) {
             sysRole.setId(sysRoleVo.getId());
             sysRole.setDelFlag(sysRoleVo.getDelFlag());

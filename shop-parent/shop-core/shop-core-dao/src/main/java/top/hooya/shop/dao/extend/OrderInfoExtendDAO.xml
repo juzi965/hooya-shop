@@ -75,7 +75,7 @@
     (select (@i := @i + 1) as _index
     ,DATE(DATE_SUB( CURRENT_DATE, INTERVAL @i DAY )) as currentDate
     from mysql.help_topic, ( select @i := - 1 ) temp
-    where @i &lt; 29) as tempp left join
+    where @i &lt; 14) as tempp left join
     (select DATE_FORMAT(oin.create_time,'%Y-%m-%d') currentDate
     ,sum(oin.total_price) salesAmount
     ,count(distinct oin.order_id) orderVolume
