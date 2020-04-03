@@ -11,9 +11,20 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/hooya_shop?useUnicode=true&characterEncoding=utf8&serverTimezone=Hongkong
+      url: jdbc:mysql://121.36.7.244:3306/hooya_shop?useUnicode=true&characterEncoding=utf8&serverTimezone=Hongkong
       username: root
-      password: 965123
+      password: HooyaShop965123.
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+      add-mappings: false
+  messages:
+    encoding: UTF-8
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 
 # mybatis
 mybatis:

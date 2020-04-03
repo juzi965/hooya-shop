@@ -9,7 +9,7 @@ import top.hooya.shop.common.pojo.RoleUserVo;
 import top.hooya.shop.common.utils.PropertiesUtil;
 import top.hooya.shop.dao.SysRoleUserDAO;
 import top.hooya.shop.dao.UserInfoDAO;
-import top.hooya.shop.dao.extend.UserInfoExtendDao;
+import top.hooya.shop.dao.extend.UserInfoExtendDAO;
 import top.hooya.shop.pojo.*;
 import top.hooya.shop.pojo.UserInfoExample.Criteria;
 import top.hooya.shop.pojo.extend.SysMenuExtend;
@@ -28,7 +28,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	private UserInfoDAO userInfoDAO;
 
 	@Autowired
-	private UserInfoExtendDao userInfoExtendDao;
+	private UserInfoExtendDAO userInfoExtendDao;
 
 	@Autowired
 	private SysRoleUserDAO  sysRoleUserDAO;

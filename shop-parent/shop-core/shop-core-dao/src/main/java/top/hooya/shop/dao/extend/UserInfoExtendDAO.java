@@ -12,7 +12,7 @@ import java.util.List;
  * @date 2020-03-17 18:17
  */
 @Repository
-public interface UserInfoExtendDao {
+public interface UserInfoExtendDAO {
     List<UserInfoExtend> selectUserInfoByKeyWord(@Param("keyWord")String keyWord);
 
     List<SysMenu> selectMenuListByUserId(@Param("userId")Integer userId);
