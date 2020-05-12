@@ -16,4 +16,6 @@ public interface UserInfoExtendDAO {
     List<UserInfoExtend> selectUserInfoByKeyWord(@Param("keyWord")String keyWord);
 
     List<SysMenu> selectMenuListByUserId(@Param("userId")Integer userId);
+
+    List<UserInfoExtend> selectEmployeeByKeyWord(@Param("keyWord")String keyWord);
 }

@@ -21,7 +21,9 @@ public interface UserInfoService {
 
 	List<UserInfoExtend> getUser(String keyWord);
 
-	int resetPasswordByuserId(Integer userId);
+	List<UserInfoExtend> getEmployee(String keyWord);
+
+	int resetPasswordByUserId(Integer userId);
 
     int allocationRole(RoleUserVo vo);
 

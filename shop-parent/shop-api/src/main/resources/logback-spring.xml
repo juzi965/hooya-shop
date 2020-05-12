@@ -4,8 +4,8 @@
     <!--property用于配置变量，可通过${LOG_PATH} 取对应的值-->
     <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
 
-    <property name="LOG_PATH" value="E:/Log"/>
-    <!--    <property name="LOG_PATH" value="/usr/shop/log"/>-->
+<!--    <property name="LOG_PATH" value="E:/Log"/>-->
+    <property name="LOG_PATH" value="/usr/upload/log/shop"/>
     <property name="PATTERN"
               value="%d{yyyy-MM-dd HH:mm:ss} [ %thread ] [ %-5level ] %logger{50} ==> %msg%n"/>
     <property name="CONSOLE_LOG_PATTERN"
@@ -127,10 +127,10 @@
         </encoder>
     </appender>
 
+    <logger name="top.hooya.shop.dao" level="DEBUG"/>
+    <logger name="org.springframework.web.servlet" level="DEBUG"/>
     <!--开发环境-->
     <springProfile name="dev">
-        <logger name="top.hooya.shop.dao" level="DEBUG"/>
-        <logger name="org.springframework.web.servlet" level="DEBUG"/>
         <!--必选节点，用来指定最基础的日志输出级别-->
         <root level="INFO">
             <appender-ref ref="logDebugFile"/>
@@ -143,14 +143,12 @@
 
     <!--生产环境-->
     <springProfile name="pro">
-        <logger name="top.hooya.shop.dao" level="DEBUG"/>
         <!--必选节点，用来指定最基础的日志输出级别-->
         <root level="INFO">
             <appender-ref ref="logDebugFile"/>
             <appender-ref ref="logInfoFile"/>
             <appender-ref ref="logWarnFile"/>
             <appender-ref ref="logErrorFile"/>
-            <!--            <appender-ref ref="console"/>-->
         </root>
     </springProfile>
 

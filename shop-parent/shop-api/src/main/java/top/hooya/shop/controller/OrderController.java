@@ -95,7 +95,7 @@ public class OrderController {
                 return Result.success(map.get("trade_no"));
             }
         }
-        return Result.error("支付失败");
+        return Result.failed(PropertiesUtil.WAIT_PAY_CODE,"支付失败");
     }
 
     @UserLoginToken

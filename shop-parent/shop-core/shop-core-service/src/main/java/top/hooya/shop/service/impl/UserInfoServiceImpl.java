@@ -82,7 +82,15 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public int resetPasswordByuserId(Integer userId) {
+	public List<UserInfoExtend> getEmployee(String keyWord) {
+		if ("all".equals(keyWord)){
+			keyWord = null;
+		}
+		return userInfoExtendDao.selectEmployeeByKeyWord(keyWord);
+	}
+
+	@Override
+	public int resetPasswordByUserId(Integer userId) {
 		UserInfo userInfo = new UserInfo();
 		userInfo.setId(userId);
 		userInfo.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));

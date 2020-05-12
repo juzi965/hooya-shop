@@ -35,6 +35,19 @@
     order by ui.id asc
   </select>
 
+  <select id="selectEmployeeByKeyWord" resultMap="BaseResultMap">
+    select ui.*,sr.role_name
+    from user_info ui ,sys_role_user sru, sys_role sr
+    where ui.del_flag = 0 and sru.role_id = 4 and sru.del_flag = 0 and ui.id = sru.user_id and sru.role_id = sr.id
+    <if test="keyWord!=null">
+      and (ui.user_name like "%"#{keyWord}"%"
+      or ui.email like "%"#{keyWord}"%"
+      or ui.phone_num like "%"#{keyWord}"%"
+      or ui.gender like "%"#{keyWord}"%")
+    </if>
+    order by ui.id asc
+  </select>
+
   <select id="selectMenuListByUserId" resultMap="MenuResultMap">
     select sm.*
     from sys_role_user sru left join sys_role_menu srm on sru.role_id = srm.role_id left join  sys_menu sm on sm.id = srm.menu_id

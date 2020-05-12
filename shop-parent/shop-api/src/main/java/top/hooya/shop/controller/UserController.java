@@ -66,7 +66,7 @@ public class UserController {
     @UserLoginToken
     @PostMapping("/resetPwd")
     public Result resetPassword(Integer userId) {
-        int count = userInfoService.resetPasswordByuserId(userId);
+        int count = userInfoService.resetPasswordByUserId(userId);
         return count > 0 ? Result.success(count) : Result.error("重置失败");
     }
 
@@ -121,5 +121,13 @@ public class UserController {
         return count > 0 ? Result.error("手机号已被注册") : Result.success("该手机号可以使用");
     }
 
+    @UserLoginToken
+    @GetMapping("/employee/{keyWord}/{pageNum}/{pageSize}")
+    public Result getEmployee(@PathVariable("keyWord") String keyWord, @PathVariable("pageNum") Integer pageNum, @PathVariable("pageSize") Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<UserInfoExtend> userInfoExtendList = userInfoService.getEmployee(keyWord);
+        PageInfo<UserInfoExtend> pageInfo = new PageInfo<>(userInfoExtendList);
+        return Result.success(pageInfo);
+    }
 
 }

@@ -114,7 +114,7 @@
   <select id="selectUserInfoByRoleId" resultMap="UserInfoMap">
     select ui.*
     from user_info ui left join sys_role_user sru on sru.user_id = ui.id
-    where sru.role_id =#{roleId} and sru.del_flag = 0 and ui.del_flag = 0
+    where (sru.role_id =#{roleId}  or sru.role_id =4 )and sru.del_flag = 0 and ui.del_flag = 0
   </select>
 </mapper>
 

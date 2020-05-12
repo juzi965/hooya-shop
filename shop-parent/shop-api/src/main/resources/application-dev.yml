@@ -14,10 +14,6 @@ spring:
       url: jdbc:mysql://127.0.0.1:3306/hooya_shop?useUnicode=true&characterEncoding=utf8&serverTimezone=Hongkong
       username: root
       password: 965123
-  mvc:
-    throw-exception-if-no-handler-found: true
-  resources:
-    add-mappings: false
   messages:
     encoding: UTF-8
   http:
@@ -29,8 +25,6 @@ spring:
 # mybatis
 mybatis:
   type-aliases-package: top.hooya.shop.pojo
-#    configuration:
-#        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 # pagehelper
 pagehelper:

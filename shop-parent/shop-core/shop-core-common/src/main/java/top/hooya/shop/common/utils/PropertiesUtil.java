@@ -23,7 +23,7 @@ public class PropertiesUtil {
 	public static Integer OTHER_ERROR_CODE;
 
 	/**
-	 * 其他错误状态码
+	 * 参数错误状态码
 	 */
 	public static Integer PARAMS_ERROR_CODE;
 
@@ -31,6 +31,10 @@ public class PropertiesUtil {
 	 * token验证失败状态码
 	 */
 	public static Integer TOKEN_VERIFY_FAIL;
+	/**
+	 * 等待支付状态码
+	 */
+	public static Integer WAIT_PAY_CODE;
 
 	/**
 	 * 是否删除状态码
@@ -126,6 +130,10 @@ public class PropertiesUtil {
 	@Value("${PARAMS_ERROR_CODE}")
 	public void setParamsErrorCode(Integer paramsErrorCode) {
 		PARAMS_ERROR_CODE = paramsErrorCode;
+	}
+	@Value("${WAIT_PAY_CODE}")
+	public void setWaitPayCode(Integer waitPayCode) {
+		WAIT_PAY_CODE = waitPayCode;
 	}
 
 	@Value("${DEL_FLAG}")
