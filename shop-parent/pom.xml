@@ -22,7 +22,7 @@
 	</modules>
 	<properties>
 		<java.version>1.8</java.version>
-		<alibaba.fastjson>1.2.67</alibaba.fastjson>
+		<alibaba.fastjson>1.2.83</alibaba.fastjson>
 		<alibaba.druid>1.1.20</alibaba.druid>
 		<github.pagehelper>1.2.13</github.pagehelper>
 		<auth0.jwt>3.10.1</auth0.jwt>
